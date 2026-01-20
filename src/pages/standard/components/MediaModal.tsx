@@ -60,10 +60,14 @@ export default function MediaModal({ isOpen, media, onClose }: MediaModalProps) 
 
         {media.type === 'video' ? (
           <video
+            className='min-w-4/5 min-h-4/5 max-w-[95vw] max-h-[95vh] rounded-lg shadow-2xl focus:outline-none'
             src={media.url}
             controls
             autoPlay
-            className='min-w-4/5 min-h-4/5 max-w-[95vw] max-h-[95vh] rounded-lg shadow-2xl focus:outline-none'
+            muted
+            playsInline
+            poster={media.thumbnail}
+            preload='metadata'
             onClick={(e) => e.stopPropagation()}
           />
         ) : (
