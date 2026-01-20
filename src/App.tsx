@@ -2,6 +2,7 @@ import { Routes, Route, Link } from 'react-router';
 import ResumePage from './pages/standard/ResumePage';
 import InteractivePage from './pages/interactive/InteractivePage';
 import { Download } from 'lucide-react';
+import resumePdf from './assets/resume.pdf';
 
 function App() {
   return (
@@ -22,7 +23,7 @@ function App() {
         </div>
 
         <a
-          href='/resume.pdf'
+          href={resumePdf}
           download='웹 프론트엔드 개발자 - 송상수.pdf'
           className='inline-flex items-center gap-2 mt-2 bg-black/50 backdrop-blur px-4 py-2 rounded-full border border-white/10 text-sm text-white/80 hover:text-white transition-colors'
         >

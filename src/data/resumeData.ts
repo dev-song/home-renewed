@@ -1,5 +1,19 @@
 import { Github, Linkedin } from 'lucide-react';
 
+import epicAiDashboard from '../assets/epic-ai_dashboard.webp';
+import epicAiFeeds from '../assets/epic-ai_feeds.webp';
+import epicAiFinancialComparison from '../assets/epic-ai_financial-comparison.webp';
+import epicAiFinancials from '../assets/epic-ai_financials.webp';
+import epicAiResearchCenter from '../assets/epic-ai_research-center.webp';
+
+import epicFinanceCompanyComparison from '../assets/epic-finance_company-comparison.webp';
+import epicFinanceCreditCard from '../assets/epic-finance_credit-card.webp';
+import epicFinanceDashboard from '../assets/epic-finance_dashboard.webp';
+import epicFinanceExport from '../assets/epic-finance_export.webp';
+import epicFinanceHeatmap from '../assets/epic-finance_heatmap.webp';
+import epicFinanceHeatmapYoutube from '../assets/epic-finance_heatmap_youtube.webp';
+import epicFinanceIndustry from '../assets/epic-finance_industry.webp';
+
 export const resumeData = {
   hero: {
     name: '송상수',
@@ -89,6 +103,13 @@ export const resumeData = {
         '금융 리서치 AI 어시스턴트 SaaS입니다. KOSPI/KOSDAQ 상장사 정보 대시보드 및 리서치 테이블, 실시간 피드, LLM 코파일럿 인터페이스를 구축했고 자체 디자인 시스템을 고도화했습니다. 외부 데이터 제공자와의 협업을 통해 데이터 특성에 맞는 UX를 적용했습니다. 2025년 10월 출시 직후 국내 주요 증권사 및 금융기관에서 도입되었습니다.',
       technologies: ['TypeScript', 'React', 'Vite', 'Tanstack Query', 'Tailwind CSS', 'Highcharts'],
       link: 'https://home.epic.ai.kr/',
+      images: [
+        epicAiDashboard,
+        epicAiResearchCenter,
+        epicAiFeeds,
+        epicAiFinancialComparison,
+        epicAiFinancials,
+      ],
     },
     {
       title: 'epic Finance',
@@ -105,6 +126,15 @@ export const resumeData = {
         'D3',
       ],
       link: 'https://bigfinance.co.kr/home',
+      images: [
+        epicFinanceDashboard,
+        epicFinanceHeatmap,
+        epicFinanceIndustry,
+        epicFinanceCompanyComparison,
+        epicFinanceExport,
+        epicFinanceCreditCard,
+        epicFinanceHeatmapYoutube,
+      ],
     },
   ],
   contact: {

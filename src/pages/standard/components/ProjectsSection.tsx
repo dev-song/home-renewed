@@ -6,6 +6,7 @@ interface Project {
   technologies: string[];
   link?: string;
   github?: string;
+  images?: string[];
 }
 
 export default function ProjectsSection({ projects }: { projects: Project[] }) {
@@ -43,6 +44,20 @@ export default function ProjectsSection({ projects }: { projects: Project[] }) {
                 )}
               </div>
             </div>
+
+            {project.images && project.images.length > 0 && (
+              <div className='flex gap-4 overflow-x-auto pb-4 mb-6 scrollbar-hide'>
+                {project.images.map((img, idx) => (
+                  <img
+                    key={idx}
+                    src={img}
+                    alt={`${project.title} screenshot ${idx + 1}`}
+                    className='h-48 w-auto rounded-lg shadow-sm border border-gray-100 object-cover shrink-0'
+                  />
+                ))}
+              </div>
+            )}
+
             <p className='text-gray-600 mb-6'>{project.description}</p>
             <div className='flex flex-wrap gap-2'>
               {project.technologies.map((tech) => (

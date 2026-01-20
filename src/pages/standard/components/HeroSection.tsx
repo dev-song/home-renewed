@@ -1,10 +1,9 @@
-import { Mail } from 'lucide-react';
-import type { ElementType } from 'react';
+import { Mail, type LucideIcon } from 'lucide-react';
 
 interface SocialLink {
   name: string;
   url: string;
-  icon: ElementType;
+  icon: LucideIcon;
 }
 
 interface HeroData {
