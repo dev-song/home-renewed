@@ -10,6 +10,7 @@ interface HistoryItem {
   content: string;
 }
 
+// mode: progress/input
 const Terminal: React.FC = () => {
   const [history, setHistory] = useState<HistoryItem[]>([
     { type: 'output', content: 'Welcome to my portfolio! Type "help" to see available commands.' },
@@ -84,6 +85,9 @@ const Terminal: React.FC = () => {
         ref={scrollRef}
         className='bg-zinc-900 p-4 h-80 overflow-y-auto text-zinc-100 leading-relaxed'
       >
+        {/* 진행상황 바 */}
+        <ProgressWithTrivia />
+
         {history.map((item, index) => (
           <div key={index} className='mb-1 whitespace-pre-wrap'>
             {item.type === 'input' ? (
@@ -111,3 +115,74 @@ const Terminal: React.FC = () => {
     </div>
   );
 };
+
+const MAX_PROGRESS = 100;
+const PROGRESS_INTERVAL = 75;
+const PROGRESS_BAR_WIDTH = 2;
+
+const ProgressWithTrivia = () => {
+  const [progress, setProgress] = useState(0);
+  const triviaByProgress = TRIVIA_AND_CAREER_TIMELINE.slice(
+    0,
+    Math.ceil(progress / (MAX_PROGRESS / TRIVIA_AND_CAREER_TIMELINE.length)),
+  );
+
+  // 진행상황 바 애니메이션
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setProgress((prev) => {
+        if (prev < MAX_PROGRESS) {
+          return prev + 1;
+        } else {
+          clearInterval(interval);
+          return MAX_PROGRESS;
+        }
+      });
+    }, PROGRESS_INTERVAL);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div>
+      <div className='flex items-center gap-2'>
+        <span className='text-zinc-400'>Progress:</span>
+        <span className='text-zinc-400'>{formatProgress(progress)}%</span>
+        <div className='flex w-full h-2'>
+          {Array.from({ length: Math.floor(progress / PROGRESS_BAR_WIDTH) }).map((_, index) => (
+            <div
+              key={index}
+              className={`bg-green-500 h-2 w-[${PROGRESS_BAR_WIDTH}%] not-last:border-r border-zinc-700`}
+            />
+          ))}
+        </div>
+      </div>
+
+      <span className='text-zinc-400'>You can pause by pressing 'p', restart by 'r'</span>
+
+      <div className='h-12 overflow-hidden'>
+        {triviaByProgress.reverse().map((el, index) => (
+          <div key={index} className='whitespace-pre-wrap'>
+            <span className='text-zinc-300'>{el}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+function formatProgress(progress: number) {
+  if (progress < 0) throw new Error('progress should exceed 0');
+  if (progress > 100) throw new Error('progress should not exceed 100');
+  if (progress < 100) return progress.toString().padStart(3, ' ');
+  return progress.toString();
+}
+
+const TRIVIA_AND_CAREER_TIMELINE = [
+  'trivia 1',
+  'trivia 2',
+  'trivia 3',
+  'trivia 4',
+  'trivia 5',
+  'trivia 6',
+];
