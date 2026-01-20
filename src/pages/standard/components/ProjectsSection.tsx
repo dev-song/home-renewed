@@ -57,7 +57,7 @@ export default function ProjectsSection({ projects }: { projects: Project[] }) {
                       key={idx}
                       src={img}
                       alt={`${project.title} screenshot ${idx + 1}`}
-                      className='h-48 w-auto rounded-lg shadow-sm border border-gray-100 object-cover shrink-0 cursor-pointer hover:scale-105 hover:opacity-95 transition-all duration-300'
+                      className='h-48 w-auto rounded-lg object-cover shrink-0 cursor-pointer hover:scale-105 hover:opacity-95 transition-all duration-300'
                       onClick={() => setSelectedImage(img)}
                     />
                   ))}

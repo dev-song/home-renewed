@@ -1,5 +1,5 @@
 import { X } from 'lucide-react';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 interface ImageModalProps {
   isOpen: boolean;
@@ -9,33 +9,43 @@ interface ImageModalProps {
 }
 
 export default function ImageModal({ isOpen, imageUrl, onClose, altText }: ImageModalProps) {
+  const dialogRef = useRef<HTMLDialogElement>(null);
+
   useEffect(() => {
-    const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
-    };
+    const dialog = dialogRef.current;
+    if (!dialog) return;
 
     if (isOpen) {
-      document.addEventListener('keydown', handleEsc);
-      document.body.style.overflow = 'hidden';
+      dialog.showModal();
+    } else {
+      dialog.close();
     }
+  }, [isOpen]);
 
-    return () => {
-      document.removeEventListener('keydown', handleEsc);
-      document.body.style.overflow = 'unset';
-    };
-  }, [isOpen, onClose]);
+  // Handle backdrop click
+  const handleBackdropClick = (e: React.MouseEvent<HTMLDialogElement>) => {
+    const dialog = dialogRef.current;
+    if (dialog && e.target === dialog) {
+      onClose();
+    }
+  };
 
-  if (!isOpen) return null;
+  // Handle native close event (e.g. Escape key)
+  const handleClose = () => {
+    onClose();
+  };
 
   return (
-    <div
-      className='fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm transition-opacity duration-300'
-      onClick={onClose}
+    <dialog
+      ref={dialogRef}
+      className='bg-transparent p-0 border-0 backdrop:bg-black/80 backdrop:backdrop-blur-sm m-auto max-w-none max-h-none w-full h-full inset-0 z-50 transition-all focus:outline-none'
+      onClick={handleBackdropClick}
+      onClose={handleClose}
     >
-      <div className='relative max-w-7xl max-h-[90vh] w-full h-full flex items-center justify-center'>
+      <div className='relative w-full h-full flex items-center justify-center p-4'>
         <button
           onClick={onClose}
-          className='absolute top-4 right-4 p-2 text-white/70 hover:text-white bg-black/50 rounded-full transition-colors z-50 pointer-events-auto'
+          className='absolute top-4 right-4 p-2 text-white/70 hover:text-white bg-black/50 rounded-full transition-colors z-50 cursor-pointer'
           aria-label='Close modal'
         >
           <X className='w-6 h-6' />
@@ -43,10 +53,10 @@ export default function ImageModal({ isOpen, imageUrl, onClose, altText }: Image
         <img
           src={imageUrl}
           alt={altText || 'Expanded project image'}
-          className='max-w-full max-h-full object-contain rounded-lg shadow-2xl pointer-events-auto'
+          className='max-w-[95vw] max-h-[95vh] object-contain rounded-lg'
           onClick={(e) => e.stopPropagation()}
         />
       </div>
-    </div>
+    </dialog>
   );
 }
