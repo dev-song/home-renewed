@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 import Stage1 from './Stage1';
 import Stage2 from './Stage2';
+import Stage3 from './Stage3';
 
 export default function InteractivePage() {
   const [stage, setStage] = useState(1);
@@ -33,6 +34,8 @@ function Stage({ stage }: { stage: number }) {
       return <Stage1 />;
     case 2:
       return <Stage2 />;
+    case 3:
+      return <Stage3 />;
     default:
       return null;
   }

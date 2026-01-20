@@ -144,11 +144,11 @@ const ProgressWithTrivia = () => {
   }, []);
 
   return (
-    <div>
-      <div className='flex items-center gap-2'>
+    <div className='flex flex-col gap-1'>
+      <div className='flex items-center'>
         <span className='text-zinc-400'>Progress:</span>
-        <span className='text-zinc-400'>{formatProgress(progress)}%</span>
-        <div className='flex w-full h-2'>
+        <span className='text-zinc-400 ml-1'>{formatProgress(progress)}%</span>
+        <div className='flex w-full h-2 ml-2'>
           {Array.from({ length: Math.floor(progress / PROGRESS_BAR_WIDTH) }).map((_, index) => (
             <div
               key={index}
