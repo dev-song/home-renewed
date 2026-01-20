@@ -1,14 +1,20 @@
 import { X } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 
-interface ImageModalProps {
-  isOpen: boolean;
-  imageUrl: string;
-  onClose: () => void;
-  altText?: string;
+export interface MediaItem {
+  type: 'image' | 'video';
+  url: string;
+  thumbnail?: string;
+  alt?: string;
 }
 
-export default function ImageModal({ isOpen, imageUrl, onClose, altText }: ImageModalProps) {
+interface MediaModalProps {
+  isOpen: boolean;
+  media: MediaItem | null;
+  onClose: () => void;
+}
+
+export default function MediaModal({ isOpen, media, onClose }: MediaModalProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
@@ -30,10 +36,11 @@ export default function ImageModal({ isOpen, imageUrl, onClose, altText }: Image
     }
   };
 
-  // Handle native close event (e.g. Escape key)
   const handleClose = () => {
     onClose();
   };
+
+  if (!media) return null;
 
   return (
     <dialog
@@ -50,12 +57,23 @@ export default function ImageModal({ isOpen, imageUrl, onClose, altText }: Image
         >
           <X className='w-6 h-6' />
         </button>
-        <img
-          src={imageUrl}
-          alt={altText || 'Expanded project image'}
-          className='max-w-[95vw] max-h-[95vh] object-contain rounded-lg'
-          onClick={(e) => e.stopPropagation()}
-        />
+
+        {media.type === 'video' ? (
+          <video
+            src={media.url}
+            controls
+            autoPlay
+            className='min-w-4/5 min-h-4/5 max-w-[95vw] max-h-[95vh] rounded-lg shadow-2xl focus:outline-none'
+            onClick={(e) => e.stopPropagation()}
+          />
+        ) : (
+          <img
+            src={media.url}
+            alt={media.alt || 'Expanded project image'}
+            className='max-w-[95vw] max-h-[95vh] object-contain rounded-lg shadow-2xl'
+            onClick={(e) => e.stopPropagation()}
+          />
+        )}
       </div>
     </dialog>
   );

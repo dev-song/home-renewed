@@ -1,6 +1,6 @@
-import { ExternalLink, Github } from 'lucide-react';
+import { ExternalLink, Github, Play } from 'lucide-react';
 import { useState } from 'react';
-import ImageModal from './ImageModal';
+import MediaModal, { type MediaItem } from './MediaModal';
 
 interface Project {
   title: string;
@@ -8,11 +8,49 @@ interface Project {
   technologies: string[];
   link?: string;
   github?: string;
-  images?: string[];
+  media?: (string | MediaItem)[];
 }
 
 export default function ProjectsSection({ projects }: { projects: Project[] }) {
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedMedia, setSelectedMedia] = useState<MediaItem | null>(null);
+
+  const handleMediaClick = (item: string | MediaItem) => {
+    if (typeof item === 'string') {
+      setSelectedMedia({ type: 'image', url: item });
+    } else {
+      setSelectedMedia(item);
+    }
+  };
+
+  const renderThumbnail = (item: string | MediaItem, projectTitle: string, index: number) => {
+    const isVideo = typeof item !== 'string' && item.type === 'video';
+    const src = typeof item === 'string' ? item : item.thumbnail || item.url;
+    const alt =
+      typeof item === 'string'
+        ? `${projectTitle} screenshot ${index + 1}`
+        : item.alt || `${projectTitle} media ${index + 1}`;
+
+    return (
+      <div
+        key={index}
+        className='relative shrink-0 cursor-pointer group'
+        onClick={() => handleMediaClick(item)}
+      >
+        <img
+          src={src}
+          alt={alt}
+          className='h-48 w-auto rounded-lg object-cover group-hover:scale-105 group-hover:opacity-95 transition-all duration-300'
+        />
+        {isVideo && (
+          <div className='absolute inset-0 flex items-center justify-center pointer-events-none'>
+            <div className='bg-black/50 rounded-full p-2 group-hover:bg-black/70 transition-colors'>
+              <Play className='w-8 h-8 text-white fill-white' />
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  };
 
   return (
     <>
@@ -50,17 +88,9 @@ export default function ProjectsSection({ projects }: { projects: Project[] }) {
                 </div>
               </div>
 
-              {project.images && project.images.length > 0 && (
+              {project.media && project.media.length > 0 && (
                 <div className='flex gap-4 overflow-x-auto pb-4 mb-6 scrollbar-hide'>
-                  {project.images.map((img, idx) => (
-                    <img
-                      key={idx}
-                      src={img}
-                      alt={`${project.title} screenshot ${idx + 1}`}
-                      className='h-48 w-auto rounded-lg object-cover shrink-0 cursor-pointer hover:scale-105 hover:opacity-95 transition-all duration-300'
-                      onClick={() => setSelectedImage(img)}
-                    />
-                  ))}
+                  {project.media.map((item, idx) => renderThumbnail(item, project.title, idx))}
                 </div>
               )}
 
@@ -80,10 +110,10 @@ export default function ProjectsSection({ projects }: { projects: Project[] }) {
         </div>
       </section>
 
-      <ImageModal
-        isOpen={!!selectedImage}
-        imageUrl={selectedImage || ''}
-        onClose={() => setSelectedImage(null)}
+      <MediaModal
+        isOpen={!!selectedMedia}
+        media={selectedMedia}
+        onClose={() => setSelectedMedia(null)}
       />
     </>
   );

@@ -2,17 +2,16 @@ import { Github, Linkedin } from 'lucide-react';
 
 import epicAiDashboard from '../assets/epic-ai_dashboard.webp';
 import epicAiFeeds from '../assets/epic-ai_feeds.webp';
+import epicAiCopilot from '../assets/epic-ai_copilot.webp';
 import epicAiFinancialComparison from '../assets/epic-ai_financial-comparison.webp';
-import epicAiFinancials from '../assets/epic-ai_financials.webp';
 import epicAiResearchCenter from '../assets/epic-ai_research-center.webp';
-
-import epicFinanceCompanyComparison from '../assets/epic-finance_company-comparison.webp';
 import epicFinanceCreditCard from '../assets/epic-finance_credit-card.webp';
 import epicFinanceDashboard from '../assets/epic-finance_dashboard.webp';
 import epicFinanceExport from '../assets/epic-finance_export.webp';
 import epicFinanceHeatmap from '../assets/epic-finance_heatmap.webp';
 import epicFinanceHeatmapYoutube from '../assets/epic-finance_heatmap_youtube.webp';
 import epicFinanceIndustry from '../assets/epic-finance_industry.webp';
+import { PROJECT_VIDEO } from '../constants/media';
 
 export const resumeData = {
   hero: {
@@ -103,12 +102,32 @@ export const resumeData = {
         '금융 리서치 AI 어시스턴트 SaaS입니다. KOSPI/KOSDAQ 상장사 정보 대시보드 및 리서치 테이블, 실시간 피드, LLM 코파일럿 인터페이스를 구축했고 자체 디자인 시스템을 고도화했습니다. 외부 데이터 제공자와의 협업을 통해 데이터 특성에 맞는 UX를 적용했습니다. 2025년 10월 출시 직후 국내 주요 증권사 및 금융기관에서 도입되었습니다.',
       technologies: ['TypeScript', 'React', 'Vite', 'Tanstack Query', 'Tailwind CSS', 'Highcharts'],
       link: 'https://home.epic.ai.kr/',
-      images: [
-        epicAiDashboard,
-        epicAiResearchCenter,
-        epicAiFeeds,
-        epicAiFinancialComparison,
-        epicAiFinancials,
+      media: [
+        {
+          type: 'video' as const,
+          url: PROJECT_VIDEO.EPIC_AI_FEEDS,
+          thumbnail: epicAiFeeds,
+          alt: 'epic AI 피드 화면',
+        },
+        {
+          type: 'video' as const,
+          url: PROJECT_VIDEO.EPIC_AI_RESEARCH_CENTER,
+          thumbnail: epicAiResearchCenter,
+          alt: 'epic AI 리서치 센터 화면',
+        },
+        {
+          type: 'video' as const,
+          url: PROJECT_VIDEO.EPIC_AI_COPILOT,
+          thumbnail: epicAiCopilot,
+          alt: 'epic AI 코파일럿 화면',
+        },
+        {
+          type: 'video' as const,
+          url: PROJECT_VIDEO.EPIC_AI_COMPANY_ANALYSIS,
+          thumbnail: epicAiDashboard,
+          alt: 'epic AI 기업분석 화면',
+        },
+        { type: 'image' as const, url: epicAiFinancialComparison },
       ],
     },
     {
@@ -126,14 +145,42 @@ export const resumeData = {
         'D3',
       ],
       link: 'https://bigfinance.co.kr/home',
-      images: [
-        epicFinanceDashboard,
-        epicFinanceHeatmap,
-        epicFinanceIndustry,
-        epicFinanceCompanyComparison,
-        epicFinanceExport,
-        epicFinanceCreditCard,
-        epicFinanceHeatmapYoutube,
+      media: [
+        {
+          type: 'video' as const,
+          url: PROJECT_VIDEO.EPIC_FINANCE_COMPANY,
+          thumbnail: epicFinanceDashboard,
+          alt: 'epic Finance 기업 데이터 화면',
+        },
+        {
+          type: 'video' as const,
+          url: PROJECT_VIDEO.EPIC_FINANCE_INDUSTRY,
+          thumbnail: epicFinanceIndustry,
+          alt: 'epic Finance 산업 데이터 화면',
+        },
+        {
+          type: 'video' as const,
+          url: PROJECT_VIDEO.EPIC_FINANCE_CREDIT_CARD,
+          thumbnail: epicFinanceCreditCard,
+          alt: 'epic Finance 신용카드 데이터 화면',
+        },
+        {
+          type: 'video' as const,
+          url: PROJECT_VIDEO.EPIC_FINANCE_EXPORT,
+          thumbnail: epicFinanceExport,
+          alt: 'epic Finance 무역 데이터 화면',
+        },
+        {
+          type: 'video' as const,
+          url: PROJECT_VIDEO.EPIC_FINANCE_HEATMAP,
+          thumbnail: epicFinanceHeatmap,
+          alt: 'epic Finance 히트맵 화면',
+        },
+        {
+          type: 'image' as const,
+          url: epicFinanceHeatmapYoutube,
+          alt: 'epic Finance 히트맵 YouTube 방송 화면',
+        },
       ],
     },
   ],
