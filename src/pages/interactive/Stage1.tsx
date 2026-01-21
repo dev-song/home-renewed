@@ -1,6 +1,6 @@
 import JsonView from '@uiw/react-json-view';
 import { resumeData } from '../../data/resumeData';
-import { githubDarkTheme } from '@uiw/react-json-view/githubDark';
+import { vscodeTheme } from '@uiw/react-json-view/vscode';
 import { useState } from 'react';
 import Highlighter from 'react-highlight-words';
 
@@ -43,7 +43,7 @@ export default function Stage1() {
       </div>
       <div className='flex-1 p-4 overflow-auto bg-[#0d1117]'>
         {mode === 'pretty' ? (
-          <JsonView value={resumeData} style={githubDarkTheme}>
+          <JsonView value={resumeData} style={vscodeTheme}>
             <JsonView.String
               render={(props, { type, value }) => (
                 <span {...props}>
@@ -61,7 +61,7 @@ export default function Stage1() {
             />
           </JsonView>
         ) : (
-          <span className='text-blue-200/70 text-sm'>{minifiedJson}</span>
+          <span className='text-orange-300/75 text-sm'>{minifiedJson}</span>
         )}
       </div>
     </div>
