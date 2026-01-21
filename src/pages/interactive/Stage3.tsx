@@ -1,4 +1,4 @@
-import { useRef, useState, useMemo } from 'react';
+import { useRef, useState, useEffect, useMemo } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Box } from '@react-three/drei';
 import { resumeData } from '../../data/resumeData';
@@ -46,12 +46,25 @@ const VoxelBox = ({
   // Base size was [0.4, 0.4, 0.4] in args, so we scale relative to 1? Ah args are dimensions.
   // Wait, args in Box are dimensions. Scale is a property of Object3D. Default scale is [1,1,1].
 
-  useFrame(() => {
+  // Scale animation for entry
+  const targetScale = useRef(0);
+
+  // Random initial delay for "pop" effect
+  useEffect(() => {
+    const delay = Math.random() * 1000;
+    const timer = setTimeout(() => {
+      targetScale.current = 1;
+    }, delay);
+    return () => clearTimeout(timer);
+  }, []);
+
+  useFrame((_, delta) => {
     if (ref.current) {
-      // Simple lerp for smooth animation
+      const target = hovered ? 1.3 : targetScale.current;
+      // Smoothly interpolate scale
       ref.current.scale.lerp(
-        new THREE.Vector3(hovered ? 1.3 : 1, hovered ? 1.3 : 1, hovered ? 1.3 : 1),
-        0.1,
+        new THREE.Vector3(target, target, target),
+        delta * 10, // speed
       );
     }
   });
@@ -87,6 +100,8 @@ const VoxelBox = ({
 const Stage3 = () => {
   const voxels = useMemo(() => generateHeadData(), []);
   const [activeSection, setActiveSection] = useState<SectionType>(null);
+  // Separate state to track if we should show the overlay (for unmounting animation if needed, but for now simple conditional)
+  // We can just use activeSection for simple mount/unmount.
 
   const handleClick = (index: number) => {
     const colorIndex = index % MESH_COLOR.length;
@@ -134,6 +149,7 @@ const Stage3 = () => {
 
       {activeSection && (
         <div
+          className='animate-fade-in'
           style={{
             position: 'absolute',
             top: '20px',
