@@ -8,20 +8,20 @@ export default function SkillsSection({ skills }: { skills: SkillCategory[] }) {
     <section id='skills' className='grid md:grid-cols-4 gap-8'>
       <h3 className='text-xl font-bold uppercase tracking-wider text-gray-400'>Skills</h3>
       <div className='md:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-8'>
-        {skills.map((category, index) => (
-          <div key={index}>
-            <h4 className='font-bold text-gray-900 mb-4'>{category.category}</h4>
-            <div className='flex flex-wrap gap-2'>
-              {category.items.map((item) => (
-                <span
+        {skills.map(({ category, items }, index) => (
+          <article key={index}>
+            <h4 className='font-bold text-gray-900 mb-4'>{category}</h4>
+            <ul className='flex flex-wrap gap-2'>
+              {items.map((item) => (
+                <li
                   key={item}
                   className='bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm font-medium'
                 >
                   {item}
-                </span>
+                </li>
               ))}
-            </div>
-          </div>
+            </ul>
+          </article>
         ))}
       </div>
     </section>

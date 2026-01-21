@@ -44,7 +44,7 @@ export const resumeData = {
     {
       company: 'JTBC콘텐트허브',
       role: '인사담당자',
-      period: '2017.09-2019.05',
+      period: '2017.09 - 2019.05',
       description:
         '인사 운영 업무 전반을 담당하며, 콘텐츠 제작 환경에 최적화된 인사 시스템을 구축하고 급여 및 채용 프로세스를 전담했습니다.',
     },

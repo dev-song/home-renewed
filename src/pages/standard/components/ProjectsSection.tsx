@@ -58,11 +58,11 @@ export default function ProjectsSection({ projects }: { projects: Project[] }) {
         <h3 className='text-xl font-bold uppercase tracking-wider text-gray-400'>Projects</h3>
         <div className='md:col-span-3 grid gap-8'>
           {projects.map((project, index) => (
-            <div
+            <article
               key={index}
               className='bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-shadow'
             >
-              <div className='flex justify-between items-start mb-4'>
+              <header className='flex justify-between items-start mb-4'>
                 <h4 className='text-xl font-bold text-gray-900'>{project.title}</h4>
                 <div className='flex gap-3'>
                   {project.github && (
@@ -86,7 +86,7 @@ export default function ProjectsSection({ projects }: { projects: Project[] }) {
                     </a>
                   )}
                 </div>
-              </div>
+              </header>
 
               {project.media && project.media.length > 0 && (
                 <div className='flex gap-4 overflow-x-auto pb-4 mb-6 scrollbar-hide'>
@@ -95,7 +95,7 @@ export default function ProjectsSection({ projects }: { projects: Project[] }) {
               )}
 
               <p className='text-gray-600 mb-6'>{project.description}</p>
-              <div className='flex flex-wrap gap-2'>
+              <footer className='flex flex-wrap gap-2'>
                 {project.technologies.map((tech) => (
                   <span
                     key={tech}
@@ -104,8 +104,8 @@ export default function ProjectsSection({ projects }: { projects: Project[] }) {
                     {tech}
                   </span>
                 ))}
-              </div>
-            </div>
+              </footer>
+            </article>
           ))}
         </div>
       </section>
