@@ -4,6 +4,7 @@ export default function Stage2() {
 
 import React, { useState, useEffect, useRef, type KeyboardEvent } from 'react';
 import { cn } from '../../lib/utils';
+import { ChevronDown, Moon, Sun, Coffee, Circle, Contrast } from 'lucide-react';
 
 // 히스토리 아이템 타입 정의
 interface HistoryItem {
@@ -11,15 +12,123 @@ interface HistoryItem {
   content: string;
 }
 
+const TERMINAL_THEME = {
+  DARK: 'dark',
+  LIGHT: 'light',
+  BROWN: 'brown',
+  GRAY: 'gray',
+  HIGH_CONTRAST: 'highContrast',
+} as const;
+type TerminalThemeKey = (typeof TERMINAL_THEME)[keyof typeof TERMINAL_THEME];
+
+interface Theme {
+  name: string;
+  icon: React.ReactNode;
+  colors: {
+    bg: string;
+    text: string;
+    border: string;
+    headerBg: string;
+    accent: string; // for prompt and special text
+    input: string;
+    muted: string;
+    progressBar: string;
+    progressBarBg: string;
+  };
+}
+
+const THEMES: Record<TerminalThemeKey, Theme> = {
+  [TERMINAL_THEME.DARK]: {
+    name: 'Dark',
+    icon: <Moon size={14} />,
+    colors: {
+      bg: 'bg-zinc-900',
+      text: 'text-zinc-100',
+      border: 'border-zinc-700',
+      headerBg: 'bg-zinc-800',
+      accent: 'text-green-400',
+      input: 'text-zinc-100',
+      muted: 'text-zinc-500',
+      progressBar: 'bg-green-500',
+      progressBarBg: 'border-zinc-700',
+    },
+  },
+  [TERMINAL_THEME.LIGHT]: {
+    name: 'Light',
+    icon: <Sun size={14} />,
+    colors: {
+      bg: 'bg-slate-50',
+      text: 'text-slate-800',
+      border: 'border-slate-300',
+      headerBg: 'bg-slate-200',
+      accent: 'text-blue-600',
+      input: 'text-slate-900',
+      muted: 'text-slate-500',
+      progressBar: 'bg-blue-500',
+      progressBarBg: 'border-slate-300',
+    },
+  },
+  [TERMINAL_THEME.BROWN]: {
+    name: 'Retro',
+    icon: <Coffee size={14} />,
+    colors: {
+      bg: 'bg-[#2b2016]',
+      text: 'text-[#e0cda7]',
+      border: 'border-[#5c4632]',
+      headerBg: 'bg-[#423122]',
+      accent: 'text-[#ffae00]',
+      input: 'text-[#ffeebb]',
+      muted: 'text-[#8a7258]',
+      progressBar: 'bg-[#ffae00]',
+      progressBarBg: 'border-[#5c4632]',
+    },
+  },
+  [TERMINAL_THEME.GRAY]: {
+    name: 'Gray',
+    icon: <Circle size={14} />,
+    colors: {
+      bg: 'bg-[#1a1a1a]',
+      text: 'text-[#cccccc]',
+      border: 'border-[#333333]',
+      headerBg: 'bg-[#262626]',
+      accent: 'text-[#ffffff]',
+      input: 'text-[#eeeeee]',
+      muted: 'text-[#666666]',
+      progressBar: 'bg-[#888888]',
+      progressBarBg: 'border-[#333333]',
+    },
+  },
+  [TERMINAL_THEME.HIGH_CONTRAST]: {
+    name: 'Hi-Contrast',
+    icon: <Contrast size={14} />,
+    colors: {
+      bg: 'bg-black',
+      text: 'text-white',
+      border: 'border-white',
+      headerBg: 'bg-black',
+      accent: 'text-yellow-400',
+      input: 'text-white',
+      muted: 'text-white',
+      progressBar: 'bg-yellow-400',
+      progressBarBg: 'border-white',
+    },
+  },
+};
+
 // mode: progress/input
 const Terminal: React.FC = () => {
   const [history, setHistory] = useState<HistoryItem[]>([]);
   const [input, setInput] = useState<string>('');
   const [progress, setProgress] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [currentTheme, setCurrentTheme] = useState<TerminalThemeKey>(TERMINAL_THEME.DARK);
+  const [isThemeOpen, setIsThemeOpen] = useState(false);
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const themeDropdownRef = useRef<HTMLDivElement>(null);
+
+  const theme = THEMES[currentTheme];
 
   // 진행상황 바 애니메이션
   useEffect(() => {
@@ -44,6 +153,10 @@ const Terminal: React.FC = () => {
   useEffect(() => {
     const handleKeyDown = (e: globalThis.KeyboardEvent) => {
       if (isPaused) return;
+      // 입력 중이 아니고, 테마 드롭다운이 닫혀있을 때만 동작
+      const isInputFocused = document.activeElement === inputRef.current;
+      if (isInputFocused) return;
+
       const isPKeyPressed = e.key === 'p' || e.key === 'P';
       if (!isPKeyPressed) return;
 
@@ -68,8 +181,27 @@ const Terminal: React.FC = () => {
     }
   }, [isPaused]);
 
+  // Click outside to close theme dropdown
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (themeDropdownRef.current && !themeDropdownRef.current.contains(event.target as Node)) {
+        setIsThemeOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   // 터미널 어디든 클릭하면 입력창에 포커스
-  const focusInput = () => {
+  const focusInput = (e: React.MouseEvent) => {
+    // 드롭다운 클릭 시에는 포커스 이동 방지
+    if (themeDropdownRef.current?.contains(e.target as Node)) {
+      return;
+    }
+
     if (isPaused) {
       inputRef.current?.focus();
     }
@@ -112,9 +244,6 @@ const Terminal: React.FC = () => {
         case 'c':
         case 'continue':
           setIsPaused(false);
-          // 입력창이 사라지므로 history 업데이트나 response 불필요할 수 있으나,
-          // resume 직전 메시지는 남겨두거나 초기화하는 방식 선택 가능.
-          // 여기서는 히스토리에 남깁니다.
           response = 'Resuming progress...';
           break;
         case '':
@@ -131,45 +260,119 @@ const Terminal: React.FC = () => {
 
   return (
     <div
-      className='w-full max-w-2xl mx-auto mt-10 font-mono text-sm shadow-2xl rounded-lg overflow-hidden border border-zinc-700'
+      className={cn(
+        'w-full max-w-2xl mx-auto mt-10 font-mono text-sm shadow-2xl rounded-lg overflow-hidden border transition-colors duration-300',
+        theme.colors.border,
+      )}
       onClick={focusInput}
     >
-      {/* 터미널 상단 바 (macOS 스타일) */}
-      <div className='bg-zinc-800 px-4 py-2 flex items-center gap-2 border-b border-zinc-700'>
-        <div className='w-3 h-3 rounded-full bg-red-500' />
-        <div className='w-3 h-3 rounded-full bg-yellow-500' />
-        <div className='w-3 h-3 rounded-full bg-green-500' />
-        <span className='text-zinc-400 text-xs ml-2'>guest@portfolio: ~</span>
+      {/* 터미널 상단 바 */}
+      <div
+        className={cn(
+          'px-4 py-2 flex items-center justify-between border-b transition-colors duration-300',
+          theme.colors.headerBg,
+          theme.colors.border,
+        )}
+      >
+        <div className='flex items-center gap-2'>
+          <div className='w-3 h-3 rounded-full bg-red-500' />
+          <div className='w-3 h-3 rounded-full bg-yellow-500' />
+          <div className='w-3 h-3 rounded-full bg-green-500' />
+          <span
+            className={cn(
+              'text-xs ml-2 select-none transition-colors duration-300',
+              theme.colors.muted,
+            )}
+          >
+            guest@portfolio: ~
+          </span>
+        </div>
+
+        {/* Theme Selector */}
+        <div className='relative' ref={themeDropdownRef}>
+          <button
+            onClick={() => setIsThemeOpen(!isThemeOpen)}
+            className={cn(
+              'flex items-center gap-1.5 px-2 py-1 rounded text-xs transition-colors duration-200 select-none',
+              isThemeOpen ? 'bg-black/20' : 'hover:bg-black/10',
+              theme.colors.text,
+            )}
+          >
+            {theme.icon}
+            <span>{theme.name}</span>
+            <ChevronDown
+              size={12}
+              className={cn('transition-transform', isThemeOpen && 'rotate-180')}
+            />
+          </button>
+
+          {isThemeOpen && (
+            <div
+              className={cn(
+                'absolute right-0 top-full mt-1 w-32 py-1 rounded shadow-xl border z-50 overflow-hidden',
+                theme.colors.headerBg,
+                theme.colors.border,
+              )}
+            >
+              {(Object.keys(THEMES) as TerminalThemeKey[]).map((key) => (
+                <button
+                  key={key}
+                  onClick={() => {
+                    setCurrentTheme(key);
+                    setIsThemeOpen(false);
+                  }}
+                  className={cn(
+                    'w-full text-left px-3 py-1.5 text-xs flex items-center gap-2 transition-colors',
+                    currentTheme === key ? 'bg-black/20 font-bold' : 'hover:bg-black/10',
+                    currentTheme === TERMINAL_THEME.LIGHT ? 'text-black' : 'text-white',
+                  )}
+                >
+                  {THEMES[key].icon}
+                  {THEMES[key].name}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
       {/* 터미널 본문 */}
-      <div className='flex flex-col bg-zinc-900 p-4 h-80 text-zinc-100 leading-relaxed'>
+      <div
+        className={cn(
+          'flex flex-col p-4 h-80 leading-relaxed transition-colors duration-300',
+          theme.colors.bg,
+          theme.colors.text,
+        )}
+      >
         {/* 진행상황 바 - 항상 표시 */}
-        <ProgressWithTrivia progress={progress} />
+        <ProgressWithTrivia progress={progress} theme={theme} />
 
         {/* 입력줄 및 히스토리 - 일시정지 상태일 때만 표시 */}
         {isPaused && (
           <div
             ref={scrollRef}
-            className='h-full overflow-y-auto mt-4 border-t border-zinc-800 pt-2'
+            className={cn(
+              'h-full overflow-y-auto mt-4 border-t pt-2 transition-colors duration-300',
+              theme.colors.border,
+            )}
           >
             {history.map((item, index) => (
               <div key={index} className='mb-1 whitespace-pre-wrap'>
                 {item.type === 'input' ? (
-                  <span className='text-green-400 font-bold'>$ {item.content}</span>
+                  <span className={cn('font-bold', theme.colors.accent)}>$ {item.content}</span>
                 ) : (
-                  <span className='text-zinc-300'>{item.content}</span>
+                  <span className={theme.colors.text}>{item.content}</span>
                 )}
               </div>
             ))}
 
             {/* 입력줄 */}
             <div className='flex items-center'>
-              <span className='text-green-400 font-bold mr-2'>$</span>
+              <span className={cn('font-bold mr-2', theme.colors.accent)}>$</span>
               <input
                 ref={inputRef}
                 type='text'
-                className='bg-transparent border-none outline-none flex-1 text-zinc-100'
+                className={cn('bg-transparent border-none outline-none flex-1', theme.colors.input)}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleCommand}
@@ -177,14 +380,14 @@ const Terminal: React.FC = () => {
               />
             </div>
 
-            <div className='mt-2 text-zinc-500 text-xs'>
+            <div className={cn('mt-2 text-xs', theme.colors.muted)}>
               Type 'c' to continue, 'help' for commands.
             </div>
           </div>
         )}
 
         {!isPaused && (
-          <div className='mt-auto text-zinc-500 text-xs animate-pulse'>
+          <div className={cn('mt-auto text-xs animate-pulse', theme.colors.muted)}>
             Press 'p' to pause and enter commands.
           </div>
         )}
@@ -199,11 +402,13 @@ const PROGRESS_BAR_WIDTH = 2;
 
 interface ProgressWithTriviaProps extends React.HTMLAttributes<HTMLDivElement> {
   progress: number;
+  theme: Theme;
 }
 
 const ProgressWithTrivia = ({
   progress,
   className,
+  theme,
   ...props
 }: React.DetailedHTMLProps<ProgressWithTriviaProps, HTMLDivElement>) => {
   const triviaByProgress = TRIVIA_AND_CAREER_TIMELINE.slice(
@@ -214,13 +419,19 @@ const ProgressWithTrivia = ({
   return (
     <div className={cn('flex flex-col gap-1', className)} {...props}>
       <div className='flex items-center'>
-        <span className='text-zinc-400'>Progress:</span>
-        <span className='text-zinc-400 ml-1'>{formatProgress(progress)}%</span>
+        <span className={theme.colors.muted}>Progress:</span>
+        <span className={cn('ml-1', theme.colors.muted)}>{formatProgress(progress)}%</span>
         <div className='flex w-full h-2 ml-2'>
-          {Array.from({ length: Math.floor(progress / PROGRESS_BAR_WIDTH) }).map((_, index) => (
+          {Array.from({
+            length: Math.floor(progress / PROGRESS_BAR_WIDTH),
+          }).map((_, index) => (
             <div
               key={index}
-              className={`bg-green-500 h-2 not-last:border-r border-zinc-700`}
+              className={cn(
+                'h-2 not-last:border-r transition-colors duration-300',
+                theme.colors.progressBar,
+                theme.colors.progressBarBg,
+              )}
               style={{ width: `${PROGRESS_BAR_WIDTH}%` }}
             />
           ))}
@@ -230,7 +441,7 @@ const ProgressWithTrivia = ({
       <div className='h-6 overflow-hidden'>
         {triviaByProgress.reverse().map((el, index) => (
           <div key={index} className='whitespace-pre-wrap'>
-            <span className='text-zinc-400'>{el}</span>
+            <span className={theme.colors.muted}>{el}</span>
           </div>
         ))}
       </div>
