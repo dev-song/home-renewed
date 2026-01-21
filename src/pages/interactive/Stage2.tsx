@@ -13,9 +13,7 @@ interface HistoryItem {
 
 // mode: progress/input
 const Terminal: React.FC = () => {
-  const [history, setHistory] = useState<HistoryItem[]>([
-    { type: 'output', content: 'Welcome to my portfolio! Type "help" to see available commands.' },
-  ]);
+  const [history, setHistory] = useState<HistoryItem[]>([]);
   const [input, setInput] = useState<string>('');
   const [progress, setProgress] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
@@ -92,7 +90,7 @@ const Terminal: React.FC = () => {
           response = '안녕하세요! 웹 프론트엔드 개발자 송상수입니다.';
           break;
         case 'skills':
-          response = 'Frontend: React, TypeScript, Tailwind CSS\nBackend: Node.js, Next.js';
+          response = 'Typescript, React, Vite, Tailwind CSS, Next.js, Highcharts, ...';
           break;
         case 'contact':
           response =

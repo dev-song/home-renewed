@@ -1,25 +1,32 @@
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
+import { useParams, useNavigate } from 'react-router';
 import Stage1 from './Stage1';
 import Stage2 from './Stage2';
 import Stage3 from './Stage3';
 
 export default function InteractivePage() {
-  const [stage, setStage] = useState(1);
+  const { stageId } = useParams();
+  const navigate = useNavigate();
+  const stage = Number(stageId) || 1;
 
-  const goToNextStage = useCallback(() => setStage((prev) => prev + 1), []);
+  const goToNextStage = useCallback(() => {
+    navigate(`/interactive/${stage + 1}`);
+  }, [stage, navigate]);
 
   return (
     <div className='w-full h-screen p-4 bg-black text-white relative overflow-hidden'>
       <Stage stage={stage} />
 
-      <div className='absolute bottom-8 right-8 z-10'>
-        <button
-          className='bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-full backdrop-blur transition-all border border-white/20 cursor-pointer'
-          onClick={goToNextStage}
-        >
-          Next Stage &rarr;
-        </button>
-      </div>
+      {stage < 3 && (
+        <div className='absolute bottom-8 right-8 z-10'>
+          <button
+            className='bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-full backdrop-blur transition-all border border-white/20 cursor-pointer'
+            onClick={goToNextStage}
+          >
+            Next Stage &rarr;
+          </button>
+        </div>
+      )}
     </div>
   );
 }

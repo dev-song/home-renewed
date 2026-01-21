@@ -1,25 +1,30 @@
-import { Routes, Route, Link } from 'react-router';
+import { Routes, Route, Link, useLocation, Navigate } from 'react-router';
 import ResumePage from './pages/standard/ResumePage';
 import InteractivePage from './pages/interactive/InteractivePage';
 import { Download } from 'lucide-react';
 import resumePdf from './assets/resume.pdf';
 
 function App() {
+  const location = useLocation();
+  const isInteractive = location.pathname.startsWith('/interactive');
+
   return (
     <>
       {/* Temporary Navigation for Dev */}
       <nav className='fixed top-4 right-4 z-50 text-right'>
         <div className='flex gap-4 bg-black/50 backdrop-blur px-4 py-2 rounded-full border border-white/10'>
-          <Link to='/' className='text-sm text-white/80 hover:text-white transition-colors'>
-            Standard
-          </Link>
-          <div className='w-px h-4 bg-white/20 my-auto' />
-          <Link
-            to='/interactive'
-            className='text-sm text-emerald-400 hover:text-emerald-300 transition-colors'
-          >
-            Interactive
-          </Link>
+          {isInteractive ? (
+            <Link to='/' className='text-sm text-white/80 hover:text-white transition-colors'>
+              Standard
+            </Link>
+          ) : (
+            <Link
+              to='/interactive/1'
+              className='text-sm text-emerald-400 hover:text-emerald-300 transition-colors'
+            >
+              Interactive
+            </Link>
+          )}
         </div>
 
         <a
@@ -34,7 +39,8 @@ function App() {
 
       <Routes>
         <Route path='/' element={<ResumePage />} />
-        <Route path='/interactive' element={<InteractivePage />} />
+        <Route path='/interactive' element={<Navigate to='/interactive/1' replace />} />
+        <Route path='/interactive/:stageId' element={<InteractivePage />} />
       </Routes>
     </>
   );
