@@ -92,9 +92,19 @@ export const resumeData = {
       ],
     },
     {
-      category: 'Tools & Infra',
-      items: ['Git', 'AWS (Amplify, AppSync, Lambda, S3, CloudFront)', 'CI/CD (GitHub Actions)'],
+      category: 'Infra',
+      items: [
+        'AWS S3',
+        'AWS CloudFront',
+        'AWS Route53',
+        'AWS AppSync',
+        'AWS Lambda',
+        'AWS Amplify',
+        'GitHub Actions',
+        'Docker',
+      ],
     },
+    { category: 'Tools', items: ['Git', 'Figma', 'Slack', 'Asana', 'Jira'] },
   ],
   projects: [
     {

@@ -17,7 +17,7 @@ export default function ResumePage() {
     <div className='min-h-screen bg-gray-50 text-gray-900 font-sans selection:bg-gray-200 selection:text-black'>
       <HeroSection hero={hero} />
 
-      <main className='max-w-5xl mx-auto px-6 py-16 space-y-20'>
+      <main className='max-w-5xl mx-auto px-6 py-12 space-y-12 md:py-16 md:space-y-16'>
         <AboutSection about={about} />
         <ExperienceSection experience={experience} />
         <EducationSection education={education} />

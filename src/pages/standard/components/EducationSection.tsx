@@ -1,13 +1,18 @@
+import SectionLayout from './SectionLayout';
+import SectionTitle from './SectionTitle';
+
 interface Education {
   school: string;
   degree: string;
   period: string;
 }
 
+const EDUCATION_SECTION_KEY = 'education';
+
 export default function EducationSection({ education }: { education: Education[] }) {
   return (
-    <section id='education' className='grid md:grid-cols-4 gap-8'>
-      <h3 className='text-xl font-bold uppercase tracking-wider text-gray-400'>Education</h3>
+    <SectionLayout id={EDUCATION_SECTION_KEY}>
+      <SectionTitle title={EDUCATION_SECTION_KEY} />
       <div className='md:col-span-3 space-y-8'>
         {education.map((edu, index) => (
           <article key={index} className='group'>
@@ -19,6 +24,6 @@ export default function EducationSection({ education }: { education: Education[]
           </article>
         ))}
       </div>
-    </section>
+    </SectionLayout>
   );
 }

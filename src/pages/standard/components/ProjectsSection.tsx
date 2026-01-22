@@ -1,6 +1,8 @@
 import { ExternalLink, Github, Play } from 'lucide-react';
 import { useState } from 'react';
 import MediaModal, { type MediaItem } from './MediaModal';
+import SectionLayout from './SectionLayout';
+import SectionTitle from './SectionTitle';
 
 interface Project {
   title: string;
@@ -10,6 +12,8 @@ interface Project {
   github?: string;
   media?: (string | MediaItem)[];
 }
+
+const PROJECTS_SECTION_KEY = 'projects';
 
 export default function ProjectsSection({ projects }: { projects: Project[] }) {
   const [selectedMedia, setSelectedMedia] = useState<MediaItem | null>(null);
@@ -54,16 +58,16 @@ export default function ProjectsSection({ projects }: { projects: Project[] }) {
 
   return (
     <>
-      <section id='projects' className='grid md:grid-cols-4 gap-8'>
-        <h3 className='text-xl font-bold uppercase tracking-wider text-gray-400'>Projects</h3>
+      <SectionLayout id={PROJECTS_SECTION_KEY}>
+        <SectionTitle title={PROJECTS_SECTION_KEY} />
         <div className='md:col-span-3 grid gap-8'>
           {projects.map((project, index) => (
             <article
               key={index}
               className='bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-shadow'
             >
-              <header className='flex justify-between items-start mb-4'>
-                <h4 className='text-xl font-bold text-gray-900'>{project.title}</h4>
+              <header className='flex justify-between items-center mb-2'>
+                <h4 className='text-lg font-bold text-gray-900'>{project.title}</h4>
                 <div className='flex gap-3'>
                   {project.github && (
                     <a
@@ -72,7 +76,7 @@ export default function ProjectsSection({ projects }: { projects: Project[] }) {
                       rel='noopener noreferrer'
                       className='text-gray-400 hover:text-gray-900 transition-colors'
                     >
-                      <Github className='w-5 h-5' />
+                      <Github className='w-4 h-4' />
                     </a>
                   )}
                   {project.link && (
@@ -82,19 +86,19 @@ export default function ProjectsSection({ projects }: { projects: Project[] }) {
                       rel='noopener noreferrer'
                       className='text-gray-400 hover:text-gray-900 transition-colors'
                     >
-                      <ExternalLink className='w-5 h-5' />
+                      <ExternalLink className='w-4 h-4' />
                     </a>
                   )}
                 </div>
               </header>
 
               {project.media && project.media.length > 0 && (
-                <div className='flex gap-4 overflow-x-auto pb-4 mb-6 scrollbar-hide'>
+                <div className='flex gap-4 overflow-x-auto overflow-y-hidden mb-2 scrollbar-hide'>
                   {project.media.map((item, idx) => renderThumbnail(item, project.title, idx))}
                 </div>
               )}
 
-              <p className='text-gray-600 mb-6'>{project.description}</p>
+              <p className='text-gray-600 mb-2'>{project.description}</p>
               <footer className='flex flex-wrap gap-2'>
                 {project.technologies.map((tech) => (
                   <span
@@ -108,7 +112,7 @@ export default function ProjectsSection({ projects }: { projects: Project[] }) {
             </article>
           ))}
         </div>
-      </section>
+      </SectionLayout>
 
       <MediaModal
         isOpen={!!selectedMedia}

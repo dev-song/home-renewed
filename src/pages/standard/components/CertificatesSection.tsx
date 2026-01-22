@@ -1,12 +1,17 @@
+import SectionLayout from './SectionLayout';
+import SectionTitle from './SectionTitle';
+
 interface Certificate {
   name: string;
   date: string;
 }
 
+const CERTIFICATES_SECTION_KEY = 'certificates';
+
 export default function CertificatesSection({ certificates }: { certificates: Certificate[] }) {
   return (
-    <section id='certificates' className='grid md:grid-cols-4 gap-8'>
-      <h3 className='text-xl font-bold uppercase tracking-wider text-gray-400'>Certificates</h3>
+    <SectionLayout id={CERTIFICATES_SECTION_KEY}>
+      <SectionTitle title={CERTIFICATES_SECTION_KEY} />
       <div className='md:col-span-3 space-y-4'>
         {certificates.map((cert, index) => (
           <article
@@ -18,6 +23,6 @@ export default function CertificatesSection({ certificates }: { certificates: Ce
           </article>
         ))}
       </div>
-    </section>
+    </SectionLayout>
   );
 }

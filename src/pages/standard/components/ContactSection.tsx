@@ -1,4 +1,6 @@
 import { Mail, Phone, MapPin } from 'lucide-react';
+import SectionLayout from './SectionLayout';
+import SectionTitle from './SectionTitle';
 
 interface ContactData {
   email: string;
@@ -6,34 +8,36 @@ interface ContactData {
   location: string;
 }
 
+const CONTACT_SECTION_KEY = 'contact';
+
 export default function ContactSection({ contact }: { contact: ContactData }) {
   return (
-    <section id='contact' className='grid md:grid-cols-4 gap-8'>
-      <h3 className='text-xl font-bold uppercase tracking-wider text-gray-400'>Contact</h3>
-      <div className='md:col-span-3 bg-gray-900 text-white rounded-2xl p-8 md:p-12'>
-        <h4 className='text-2xl font-bold mb-6'>Let's work together</h4>
-        <p className='text-gray-300 mb-8 max-w-lg'>
+    <SectionLayout id={CONTACT_SECTION_KEY}>
+      <SectionTitle title={CONTACT_SECTION_KEY} />
+      <div className='md:col-span-3 bg-gray-900 text-white rounded-2xl p-6'>
+        <h4 className='text-xl font-bold mb-4'>Let's work together</h4>
+        <p className='text-gray-300 mb-6 max-w-lg'>
           I'm currently available for freelance work or full-time opportunities. If you have a
           project that needs some creative attention, I'd love to hear from you.
         </p>
 
         <div className='space-y-4'>
-          <div className='flex items-center gap-3 text-lg'>
-            <Mail className='w-6 h-6 text-gray-400' />
+          <div className='flex items-center gap-3'>
+            <Mail className='w-4 h-4 text-gray-400' />
             <a href={`mailto:${contact.email}`} className='hover:text-gray-300 transition-colors'>
               {contact.email}
             </a>
           </div>
-          <div className='flex items-center gap-3 text-lg'>
-            <Phone className='w-6 h-6 text-gray-400' />
+          <div className='flex items-center gap-3'>
+            <Phone className='w-4 h-4 text-gray-400' />
             <span>{contact.phone}</span>
           </div>
-          <div className='flex items-center gap-3 text-lg'>
-            <MapPin className='w-6 h-6 text-gray-400' />
+          <div className='flex items-center gap-3'>
+            <MapPin className='w-4 h-4 text-gray-400' />
             <span>{contact.location}</span>
           </div>
         </div>
       </div>
-    </section>
+    </SectionLayout>
   );
 }

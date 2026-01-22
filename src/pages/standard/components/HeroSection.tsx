@@ -17,12 +17,12 @@ interface HeroData {
 export default function HeroSection({ hero }: { hero: HeroData }) {
   return (
     <header className='bg-white border-b border-gray-200'>
-      <div className='max-w-5xl mx-auto px-6 py-16 md:py-24'>
-        <h1 className='text-5xl md:text-6xl font-bold tracking-tight text-gray-900 mb-6'>
+      <div className='max-w-5xl mx-auto px-6 py-12 md:py-16'>
+        <h1 className='text-4xl md:text-5xl font-bold tracking-tight text-gray-900 mb-4'>
           {hero.name}
         </h1>
-        <h2 className='text-2xl md:text-3xl text-gray-600 font-medium mb-6'>{hero.title}</h2>
-        <p className='text-xl text-gray-600 leading-relaxed mb-8 max-w-2xl'>{hero.tagline}</p>
+        <h2 className='text-xl md:text-2xl text-gray-600 font-medium mb-2'>{hero.title}</h2>
+        <p className='text-lg text-gray-600 leading-relaxed mb-8 max-w-2xl'>{hero.tagline}</p>
 
         <div className='flex flex-wrap gap-4'>
           {hero.socials.map((social) => (
