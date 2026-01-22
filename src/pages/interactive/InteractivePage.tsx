@@ -14,20 +14,18 @@ export default function InteractivePage() {
   }, [stage, navigate]);
 
   return (
-    <div className='w-full h-screen p-4 bg-black text-white relative overflow-hidden'>
+    <main className='w-full h-screen p-4 bg-black text-white relative overflow-hidden'>
       <Stage stage={stage} />
 
       {stage < 3 && (
-        <div className='absolute bottom-8 right-8 z-10'>
-          <button
-            className='bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-full backdrop-blur transition-all border border-white/20 cursor-pointer'
-            onClick={goToNextStage}
-          >
-            Next Stage &rarr;
-          </button>
-        </div>
+        <button
+          className='z-10 absolute bottom-8 right-8 bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-full backdrop-blur transition-all border border-white/20 cursor-pointer'
+          onClick={goToNextStage}
+        >
+          Next Stage &rarr;
+        </button>
       )}
-    </div>
+    </main>
   );
 }
 

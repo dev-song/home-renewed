@@ -195,8 +195,8 @@ const Terminal: React.FC = () => {
     };
   }, []);
 
-  // 터미널 어디든 클릭하면 입력창에 포커스
-  const focusInput = (e: React.MouseEvent) => {
+  // 터미널 어디든 클릭하면 동작 (일시정지 또는 입력창 포커스)
+  const handleContainerClick = (e: React.MouseEvent) => {
     // 드롭다운 클릭 시에는 포커스 이동 방지
     if (themeDropdownRef.current?.contains(e.target as Node)) {
       return;
@@ -204,6 +204,8 @@ const Terminal: React.FC = () => {
 
     if (isPaused) {
       inputRef.current?.focus();
+    } else {
+      setIsPaused(true);
     }
   };
 
@@ -264,7 +266,7 @@ const Terminal: React.FC = () => {
         'w-full max-w-2xl mx-auto mt-10 font-mono text-sm shadow-2xl rounded-lg overflow-hidden border transition-colors duration-300',
         theme.colors.border,
       )}
-      onClick={focusInput}
+      onClick={handleContainerClick}
     >
       {/* 터미널 상단 바 */}
       <div

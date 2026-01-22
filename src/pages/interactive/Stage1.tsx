@@ -12,6 +12,12 @@ import { basicTheme } from '@uiw/react-json-view/basic';
 import { useState } from 'react';
 import Highlighter from 'react-highlight-words';
 
+const JSON_FORMAT_MODE = {
+  MINIFY: 'minify',
+  BEAUTIFY: 'beautify',
+} as const;
+type JsonFormatMode = (typeof JSON_FORMAT_MODE)[keyof typeof JSON_FORMAT_MODE];
+
 const JSON_VIEW_THEME_TYPE = {
   BASIC: 'basic',
   LIGHT: 'light',
@@ -50,14 +56,14 @@ const LABEL_BY_JSON_VIEW_THEME = {
 };
 
 export default function Stage1() {
-  const [mode, setMode] = useState<'minified' | 'pretty'>('pretty');
+  const [mode, setMode] = useState<JsonFormatMode>(JSON_FORMAT_MODE.BEAUTIFY);
   const [searchTerm, setSearchTerm] = useState('');
   const minifiedJson = JSON.stringify(resumeData);
   const [currentTheme, setCurrentTheme] = useState(JSON_VIEW_THEME_TYPE.VSCODE);
 
   return (
     <div className='flex flex-col h-full overflow-hidden'>
-      <div className='flex items-center gap-4 p-4'>
+      <header className='flex flex-col gap-2 md:flex-row md:items-center md:gap-4 p-4'>
         <input
           type='text'
           placeholder='Search keys or values...'
@@ -66,41 +72,43 @@ export default function Stage1() {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
 
-        <select
-          value={currentTheme}
-          onChange={(e) => setCurrentTheme(e.target.value)}
-          className='w-40 p-2 bg-[#161b22] border border-gray-600 rounded text-gray-300 focus:outline-none focus:border-blue-500'
-        >
-          {jsonViewThemeTypes.map((themeType) => (
-            <option key={themeType} value={themeType}>
-              {LABEL_BY_JSON_VIEW_THEME[themeType]}
-            </option>
-          ))}
-        </select>
+        <div className='flex items-center gap-2'>
+          <select
+            value={currentTheme}
+            onChange={(e) => setCurrentTheme(e.target.value)}
+            className='w-40 p-2 bg-[#161b22] border border-gray-600 rounded text-gray-300 focus:outline-none focus:border-blue-500'
+          >
+            {jsonViewThemeTypes.map((themeType) => (
+              <option key={themeType} value={themeType}>
+                {LABEL_BY_JSON_VIEW_THEME[themeType]}
+              </option>
+            ))}
+          </select>
 
-        <div className='relative'>
-          {/* 배경 강조판 */}
-          <div
-            style={{
-              position: 'absolute',
-              width: mode === 'minified' ? '96px' : '64px',
-              height: '100%',
-              background: '#fff',
-              opacity: 0.5,
-              transition: 'all 0.3s ease-out',
-              transform: mode === 'minified' ? 'translateX(0)' : 'translateX(96px)',
-            }}
-          />
-          <button className='w-24' onClick={() => setMode('minified')}>
-            Minified
-          </button>
-          <button className='w-16' onClick={() => setMode('pretty')}>
-            Pretty
-          </button>
+          <div className='relative'>
+            {/* 배경 강조판 */}
+            <div
+              style={{
+                position: 'absolute',
+                width: mode === JSON_FORMAT_MODE.MINIFY ? '96px' : '64px',
+                height: '100%',
+                background: '#fff',
+                opacity: 0.5,
+                transition: 'all 0.3s ease-out',
+                transform: mode === JSON_FORMAT_MODE.MINIFY ? 'translateX(0)' : 'translateX(96px)',
+              }}
+            />
+            <button className='w-24' onClick={() => setMode(JSON_FORMAT_MODE.MINIFY)}>
+              Minified
+            </button>
+            <button className='w-16' onClick={() => setMode(JSON_FORMAT_MODE.BEAUTIFY)}>
+              Pretty
+            </button>
+          </div>
         </div>
-      </div>
+      </header>
       <div className='flex-1 px-4 overflow-auto'>
-        {mode === 'pretty' ? (
+        {mode === JSON_FORMAT_MODE.BEAUTIFY ? (
           <JsonView value={resumeData} style={JSON_VIEW_THEME[currentTheme]}>
             <JsonView.String
               render={(props, { type, value }) => (
