@@ -227,8 +227,11 @@ const Terminal: React.FC = () => {
           response = 'Typescript, React, Vite, Tailwind CSS, Next.js, Highcharts, ...';
           break;
         case 'contact':
-          response =
-            'Email: dvlprsong@gmail.com\nGitHub: github.com/dev-song\nLinkedIn: linkedin.com/in/sangsu-song/';
+          response = `
+            Email: ${import.meta.env.VITE_DEV_EMAIL}\n
+            GitHub: ${import.meta.env.VITE_DEV_GITHUB_URL}\n
+            LinkedIn: ${import.meta.env.VITE_DEV_LINKEDIN_URL}
+          `;
           break;
         case 'sudo':
           response = 'Permission denied! contact with admin';

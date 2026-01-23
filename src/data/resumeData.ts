@@ -17,12 +17,12 @@ export const resumeData = {
   hero: {
     name: '송상수',
     title: '소프트웨어 엔지니어',
-    tagline: '금융 데이터 시각화를 주력으로, 제품 생애주기 전반을 신경 쓰는 웹 프론트엔드 개발자',
+    tagline: '금융 데이터 시각화를 주력으로, 제품 생애주기 전반을 아우르는 웹 프론트엔드 개발자',
     socials: [
-      { name: 'GitHub', url: 'https://github.com/dev-song', icon: Github },
-      { name: 'LinkedIn', url: 'https://www.linkedin.com/in/sangsu-song', icon: Linkedin },
+      { name: 'GitHub', url: import.meta.env.VITE_DEV_GITHUB_URL, icon: Github },
+      { name: 'LinkedIn', url: import.meta.env.VITE_DEV_LINKEDIN_URL, icon: Linkedin },
     ],
-    email: 'dvlprsong@gmail.com',
+    email: import.meta.env.VITE_DEV_EMAIL,
   },
   about: {
     description: [
@@ -196,7 +196,7 @@ export const resumeData = {
     },
   ],
   contact: {
-    email: 'dvlprsong@gmail.com',
+    email: import.meta.env.VITE_DEV_EMAIL,
     phone: '+82 010-3601-8508',
     location: '대한민국, 서울',
   },
