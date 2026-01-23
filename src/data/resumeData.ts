@@ -17,7 +17,7 @@ export const resumeData = {
   hero: {
     name: '송상수',
     title: '소프트웨어 엔지니어',
-    tagline: '데이터 시각화 및 시스템 모듈화에 주력해 온 6년차 웹 프론트엔드 개발자',
+    tagline: '금융 데이터 시각화를 주력으로, 제품 생애주기 전반을 신경 쓰는 웹 프론트엔드 개발자',
     socials: [
       { name: 'GitHub', url: 'https://github.com/dev-song', icon: Github },
       { name: 'LinkedIn', url: 'https://www.linkedin.com/in/sangsu-song', icon: Linkedin },
@@ -26,11 +26,11 @@ export const resumeData = {
   },
   about: {
     description: [
-      '실시간 금융 데이터와 시계열 시각화를 주력으로 다뤄온 프론트엔드 개발자 송상수입니다.',
+      '실시간 금융 데이터 및 시계열 데이터 시각화를 주력으로 다뤄온 웹 프론트엔드 개발자 송상수입니다.',
       'TypeScript와 React를 기반으로 GraphQL(AWS AppSync), SSE 스트리밍, 실시간 무한스크롤 피드를 구현·최적화한 경험이 있습니다. Primitive 컴포넌트와 Compound Component 패턴 기반의 디자인 시스템을 구축하고 지속적으로 고도화했습니다.',
       'GitHub Actions + AWS(Amplify·S3·CloudFront)로 제품 배포 프로세스에 CI/CD를 적용하였고, 데이터 시각화 라이브러리인 Highcharts, D3를 재사용하기 편하게 모듈화함으로써 유지보수성을 개선해왔습니다.',
       '서비스의 가장 앞단에서 사용자와 만나는 웹 프론트엔드 분야에 매력을 느껴 커리어를 시작한 이래, 지금은 기능 개발을 포함한 제품 생애주기 전반에 관심을 갖고 개발을 하고 있습니다.',
-      '좋은 동료이자 신뢰할 수 있는 전문가로서, 사용자가 쓰기 좋으면서 기술적으로도 안정적·효율적인 제품을 만들고 싶습니다.',
+      '좋은 동료이자 신뢰할 수 있는 전문가로서, 사용자가 쓰기에 좋으면서 기술적으로도 안정적·효율적인 제품을 만들고 싶습니다.',
     ],
   },
   experience: [
@@ -39,7 +39,7 @@ export const resumeData = {
       role: '소프트웨어 엔지니어',
       period: '2020.12 - 2025.12',
       description:
-        '자사 금융 AI 및 빅데이터 분석 플랫폼 프론트엔드 개발의 주축으로 참여했습니다. 데이터 시각화 및 디자인 시스템 구축을 통해 개발 효율성을 향상시켰습니다.',
+        '자사 금융 AI 및 빅데이터 분석 플랫폼 프론트엔드 개발의 주축으로 참여했습니다. 각종 데이터 시각화 구현 및 디자인 시스템 구축을 통해 개발 효율성을 지속적으로 향상시켰습니다.',
     },
     {
       company: 'JTBC콘텐트허브',
@@ -110,7 +110,7 @@ export const resumeData = {
     {
       title: 'epic AI',
       description:
-        '금융 리서치 AI 어시스턴트 SaaS입니다. KOSPI/KOSDAQ 상장사 정보 대시보드 및 리서치 테이블, 실시간 피드, LLM 코파일럿 인터페이스를 구축했고 자체 디자인 시스템을 고도화했습니다. 외부 데이터 제공자와의 협업을 통해 데이터 특성에 맞는 UX를 적용했습니다. 2025년 10월 출시 직후 국내 주요 증권사 및 금융기관에서 도입되었습니다.',
+        '금융 리서치 AI 어시스턴트 SaaS입니다. KOSPI/KOSDAQ 상장사 정보 대시보드 및 리서치 테이블, 실시간 피드, LLM 코파일럿 인터페이스를 구축했고 자체 디자인 시스템을 고도화했습니다. 외부 데이터 제공자와의 협업을 통해 데이터 특성에 맞는 UX를 적용했습니다. 2025년 10월 출시 후 국내 주요 증권사 및 금융기관에서 도입해 사용 중입니다.',
       technologies: ['TypeScript', 'React', 'Vite', 'Tanstack Query', 'Tailwind CSS', 'Highcharts'],
       link: 'https://home.epic.ai.kr/',
       media: [
