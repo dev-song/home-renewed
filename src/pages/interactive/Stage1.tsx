@@ -98,11 +98,11 @@ export default function Stage1() {
                 transform: mode === JSON_FORMAT_MODE.MINIFY ? 'translateX(0)' : 'translateX(96px)',
               }}
             />
-            <button className='w-24' onClick={() => setMode(JSON_FORMAT_MODE.MINIFY)}>
-              Minified
+            <button className='w-24 capitalize' onClick={() => setMode(JSON_FORMAT_MODE.MINIFY)}>
+              {JSON_FORMAT_MODE.MINIFY}
             </button>
-            <button className='w-16' onClick={() => setMode(JSON_FORMAT_MODE.BEAUTIFY)}>
-              Pretty
+            <button className='w-16 capitalize' onClick={() => setMode(JSON_FORMAT_MODE.BEAUTIFY)}>
+              {JSON_FORMAT_MODE.BEAUTIFY}
             </button>
           </div>
         </div>

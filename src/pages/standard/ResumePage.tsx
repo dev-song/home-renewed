@@ -1,13 +1,13 @@
 import { resumeData } from '../../data/resumeData';
-import HeroSection from './components/HeroSection';
-import AboutSection from './components/AboutSection';
-import ExperienceSection from './components/ExperienceSection';
-import SkillsSection from './components/SkillsSection';
-import ProjectsSection from './components/ProjectsSection';
-import ContactSection from './components/ContactSection';
-import Footer from './components/Footer';
-import EducationSection from './components/EducationSection';
-import CertificatesSection from './components/CertificatesSection';
+import HeroSection from '../../components/standard/HeroSection';
+import AboutSection from '../../components/standard/AboutSection';
+import ExperienceSection from '../../components/standard/ExperienceSection';
+import SkillsSection from '../../components/standard/SkillsSection';
+import ProjectsSection from '../../components/standard/ProjectsSection';
+import ContactSection from '../../components/standard/ContactSection';
+import Footer from '../../components/standard/Footer';
+import EducationSection from '../../components/standard/EducationSection';
+import CertificatesSection from '../../components/standard/CertificatesSection';
 
 export default function ResumePage() {
   const { hero, about, experience, skills, projects, contact, education, certificates } =
