@@ -1,4 +1,4 @@
-import { Routes, Route, Link, useLocation, Navigate } from 'react-router';
+import { Routes, Route, Link, useLocation } from 'react-router';
 import ResumePage from './pages/standard/ResumePage';
 import InteractivePage from './pages/interactive/InteractivePage';
 import { Download } from 'lucide-react';
@@ -19,7 +19,7 @@ function App() {
             </Link>
           ) : (
             <Link
-              to='/interactive/1'
+              to='/interactive'
               className='text-sm text-emerald-400 hover:text-emerald-300 transition-colors'
             >
               Interactive
@@ -39,8 +39,7 @@ function App() {
 
       <Routes>
         <Route path='/' element={<ResumePage />} />
-        <Route path='/interactive' element={<Navigate to='/interactive/1' replace />} />
-        <Route path='/interactive/:stageId' element={<InteractivePage />} />
+        <Route path='/interactive' element={<InteractivePage />} />
       </Routes>
     </>
   );

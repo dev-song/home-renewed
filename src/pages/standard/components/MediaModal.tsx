@@ -76,6 +76,7 @@ export default function MediaModal({ isOpen, media, onClose }: MediaModalProps) 
             alt={media.alt || 'Expanded project image'}
             className='max-w-[95vw] max-h-[95vh] object-contain rounded-lg shadow-2xl'
             onClick={(e) => e.stopPropagation()}
+            loading='lazy'
           />
         )}
       </div>
