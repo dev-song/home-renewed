@@ -14,13 +14,18 @@ function App() {
       <nav className='fixed top-4 right-4 z-50 text-right'>
         <div className='flex gap-4 bg-black/50 backdrop-blur px-4 py-2 rounded-full border border-white/10'>
           {isInteractive ? (
-            <Link to='/' className='text-sm text-white/80 hover:text-white transition-colors'>
+            <Link
+              to='/'
+              className='text-sm text-white/80 hover:text-white transition-colors'
+              data-umami-event='Standard resume button'
+            >
               Standard
             </Link>
           ) : (
             <Link
               to='/interactive'
               className='text-sm text-emerald-400 hover:text-emerald-300 transition-colors'
+              data-umami-event='Interactive resume button'
             >
               Interactive
             </Link>
@@ -31,6 +36,7 @@ function App() {
           href={resumePdf}
           download='웹 프론트엔드 개발자 - 송상수.pdf'
           className='inline-flex items-center gap-2 mt-2 bg-black/50 backdrop-blur px-4 py-2 rounded-full border border-white/10 text-sm text-white/80 hover:text-white transition-colors'
+          data-umami-event='PDF download button'
         >
           <Download size={16} />
           <button className='cursor-pointer'>PDF</button>

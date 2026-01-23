@@ -18,6 +18,7 @@ export default function InteractivePage() {
         <button
           className='z-10 absolute bottom-8 right-8 bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-full backdrop-blur transition-all border border-white/20 cursor-pointer'
           onClick={goToNextStage}
+          data-umami-event='Next interactive resume stage button'
         >
           Next Stage &rarr;
         </button>

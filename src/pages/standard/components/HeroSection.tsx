@@ -32,6 +32,7 @@ export default function HeroSection({ hero }: { hero: HeroData }) {
               target='_blank'
               rel='noopener noreferrer'
               className='inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 transition-colors'
+              data-umami-event={`${social.name} link button`}
             >
               <social.icon className='w-5 h-5' />
               <span className='font-medium'>{social.name}</span>
@@ -40,6 +41,7 @@ export default function HeroSection({ hero }: { hero: HeroData }) {
           <a
             href={`mailto:${hero.email}`}
             className='inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-black text-white hover:bg-gray-800 transition-colors'
+            data-umami-event='Email link button'
           >
             <Mail className='w-5 h-5' />
             <span className='font-medium'>Contact Me</span>
