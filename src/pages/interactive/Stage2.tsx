@@ -124,6 +124,7 @@ const Terminal: React.FC = () => {
   const [isPaused, setIsPaused] = useState(false);
   const [currentTheme, setCurrentTheme] = useState<TerminalThemeKey>(TERMINAL_THEME.DARK);
   const [isThemeOpen, setIsThemeOpen] = useState(false);
+  const [isShaking, setIsShaking] = useState(false);
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -238,13 +239,23 @@ const Terminal: React.FC = () => {
           `;
           break;
         case 'sudo':
-          response = 'Permission denied! contact with admin';
+          response = 'Permission denied: You are not the admin';
           break;
         case 'rm -rf /':
-          // TODO: screen shake
+          setIsShaking(true);
+          setTimeout(() => setIsShaking(false), 500);
+          response = 'CRITICAL ERROR: System deletion prevented.';
           break;
         case 'cat':
-          // TODO: pixel art cat
+          response = `
+            ⠀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣠⣶⣿⣶⡾⠁
+            ⠠⣿⡀⠀⠀⠀⢀⣀⣤⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠀
+            ⠀⠙⢿⣶⣶⣾⣿⠿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠛⠿⠃⠀
+            ⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡃⠀⠀⠀⠀
+            ⠀⠀⠀⠀⠀⠀⠀⣰⣿⣿⢿⣿⣿⠟⠁⠀⠀⠀⠈⢿⣿⠛⠻⢿⣦⡀⠀⠀
+            ⠀⠀⠀⠀⠀⠀⠀⣿⠟⠁⠘⢿⣿⠀⠀⠀⠀⠀⠀⠸⣿⡀⠀⠀⠹⠷⠀⠀
+            ⠀⠀⠀⠀⠀⠀⠀⣿⣤⠀⠀⠀⠙⠷⠶⠀⠀⠀⠀⠀⠙⠛⠁⠀⠀⠀⠀⠀
+          `
           break;
         case 'clear':
           setHistory([]);
@@ -259,7 +270,7 @@ const Terminal: React.FC = () => {
           setHistory(newHistory);
           return;
         default:
-          response = `Command not found: ${input}. Type "help" for assistance.`;
+          response = `Command not supported: ${input}. Type "help" for available commands.`;
       }
 
       setHistory([...newHistory, { type: 'output', content: response }]);
@@ -272,6 +283,7 @@ const Terminal: React.FC = () => {
       className={cn(
         'w-full max-w-2xl mx-auto mt-10 font-mono text-sm shadow-2xl rounded-lg overflow-hidden border transition-colors duration-300',
         theme.colors.border,
+        isShaking && 'animate-shake',
       )}
       onClick={handleContainerClick}
     >
