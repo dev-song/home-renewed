@@ -1,4 +1,4 @@
-import { ExternalLink, Github, Play } from 'lucide-react';
+import { ExternalLink, Play } from 'lucide-react';
 import { useState } from 'react';
 import MediaModal, { type MediaItem } from './MediaModal';
 import SectionLayout from './SectionLayout';
@@ -9,7 +9,6 @@ interface Project {
   description: string;
   technologies: string[];
   link?: string;
-  github?: string;
   media?: (string | MediaItem)[];
 }
 
@@ -69,21 +68,12 @@ export default function ProjectsSection({ projects }: { projects: Project[] }) {
               <header className='flex justify-between items-center mb-2'>
                 <h4 className='text-lg font-bold text-gray-900'>{project.title}</h4>
                 <div className='flex gap-3'>
-                  {project.github && (
-                    <a
-                      href={project.github}
-                      target='_blank'
-                      rel='noopener noreferrer'
-                      className='text-gray-400 hover:text-gray-900 transition-colors'
-                    >
-                      <Github className='w-4 h-4' />
-                    </a>
-                  )}
                   {project.link && (
                     <a
                       href={project.link}
                       target='_blank'
                       rel='noopener noreferrer'
+                      aria-label={project.title}
                       className='text-gray-400 hover:text-gray-900 transition-colors'
                     >
                       <ExternalLink className='w-4 h-4' />
@@ -103,7 +93,7 @@ export default function ProjectsSection({ projects }: { projects: Project[] }) {
                 {project.technologies.map((tech) => (
                   <span
                     key={tech}
-                    className='text-xs font-semibold text-gray-500 bg-gray-100 px-2 py-1 rounded'
+                    className='text-xs font-semibold text-gray-600 bg-gray-100 px-2 py-1 rounded'
                   >
                     {tech}
                   </span>

@@ -20,7 +20,7 @@ export default function SkillsSection({ skills }: { skills: SkillCategory[] }) {
               {items.map((item) => (
                 <li
                   key={item}
-                  className='bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm font-medium'
+                  className='bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-sm font-medium'
                 >
                   {item}
                 </li>

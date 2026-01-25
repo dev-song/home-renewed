@@ -14,7 +14,7 @@ function App() {
     <>
       {/* Temporary Navigation for Dev */}
       <nav className='fixed top-4 right-4 z-50'>
-        <div className='flex items-center bg-black/50 backdrop-blur px-4 py-1 rounded-full border border-white/10 shadow-lg gap-1'>
+        <div className='flex items-center bg-black/70 backdrop-blur px-4 py-1 rounded-full border border-white/10 shadow-lg gap-1'>
           {isInteractive ? (
             <Link
               to='/'
@@ -26,7 +26,7 @@ function App() {
           ) : (
             <Link
               to='/interactive'
-              className='text-sm font-medium text-emerald-400 hover:text-emerald-300 transition-colors'
+              className='text-sm font-medium text-emerald-300 hover:text-emerald-200 transition-colors'
               data-umami-event='Interactive resume button'
             >
               Interactive
