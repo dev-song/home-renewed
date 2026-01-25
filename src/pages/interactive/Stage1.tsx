@@ -11,6 +11,7 @@ import { monokaiTheme } from '@uiw/react-json-view/monokai';
 import { basicTheme } from '@uiw/react-json-view/basic';
 import { useState } from 'react';
 import Highlighter from 'react-highlight-words';
+import { useLanguageStore } from '../../store/languageStore';
 
 const JSON_FORMAT_MODE = {
   MINIFY: 'minify',
@@ -56,9 +57,11 @@ const LABEL_BY_JSON_VIEW_THEME = {
 };
 
 export default function Stage1() {
+  const { language } = useLanguageStore();
   const [mode, setMode] = useState<JsonFormatMode>(JSON_FORMAT_MODE.BEAUTIFY);
   const [searchTerm, setSearchTerm] = useState('');
-  const minifiedJson = JSON.stringify(resumeData);
+  const resumeDataByLanguage = resumeData[language];
+  const minifiedJson = JSON.stringify(resumeDataByLanguage);
   const [currentTheme, setCurrentTheme] = useState(JSON_VIEW_THEME_TYPE.VSCODE);
 
   return (
@@ -109,7 +112,7 @@ export default function Stage1() {
       </header>
       <div className='flex-1 px-4 overflow-auto'>
         {mode === JSON_FORMAT_MODE.BEAUTIFY ? (
-          <JsonView value={resumeData} style={JSON_VIEW_THEME[currentTheme]}>
+          <JsonView value={resumeDataByLanguage} style={JSON_VIEW_THEME[currentTheme]}>
             <JsonView.String
               render={(props, { type, value }) => (
                 <span {...props}>

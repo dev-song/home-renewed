@@ -1,4 +1,5 @@
 import { resumeData } from '../../data/resumeData';
+import { useLanguageStore } from '../../store/languageStore';
 import HeroSection from '../../components/standard/HeroSection';
 import AboutSection from '../../components/standard/AboutSection';
 import ExperienceSection from '../../components/standard/ExperienceSection';
@@ -10,8 +11,9 @@ import EducationSection from '../../components/standard/EducationSection';
 import CertificatesSection from '../../components/standard/CertificatesSection';
 
 export default function ResumePage() {
+  const { language } = useLanguageStore();
   const { hero, about, experience, skills, projects, contact, education, certificates } =
-    resumeData;
+    resumeData[language];
 
   return (
     <div className='min-h-screen bg-gray-50 text-gray-900 font-sans selection:bg-gray-200 selection:text-black'>

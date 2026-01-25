@@ -5,8 +5,8 @@ export default function Stage2() {
 import React, { useState, useEffect, useRef, type KeyboardEvent } from 'react';
 import { cn } from '../../lib/utils';
 import { ChevronDown, Moon, Sun, Coffee, Circle, Contrast } from 'lucide-react';
+import { BROWSER_LANGUAGE, useLanguageStore } from '../../store/languageStore';
 
-// 히스토리 아이템 타입 정의
 interface HistoryItem {
   type: 'input' | 'output';
   content: string;
@@ -117,6 +117,7 @@ const THEMES: Record<TerminalThemeKey, Theme> = {
 
 // mode: progress/input
 const Terminal: React.FC = () => {
+  const { language } = useLanguageStore();
   const [history, setHistory] = useState<HistoryItem[]>([]);
   const [input, setInput] = useState<string>('');
   const [progress, setProgress] = useState(0);
@@ -221,7 +222,10 @@ const Terminal: React.FC = () => {
           response = 'Available commands: about, skills, contact, clear, c (continue)';
           break;
         case 'about':
-          response = '안녕하세요! 웹 프론트엔드 개발자 송상수입니다.';
+          response =
+            language === BROWSER_LANGUAGE.KOREAN
+              ? '안녕하세요! 웹 프론트엔드 개발자 송상수입니다.'
+              : 'Hello! I am Web Frontend Developer Sangsu Song.';
           break;
         case 'skills':
           response = 'Typescript, React, Vite, Tailwind CSS, Next.js, Highcharts, ...';
@@ -416,9 +420,11 @@ const ProgressWithTrivia = ({
   theme,
   ...props
 }: React.DetailedHTMLProps<ProgressWithTriviaProps, HTMLDivElement>) => {
-  const triviaByProgress = TRIVIA_AND_CAREER_TIMELINE.slice(
+  const { language } = useLanguageStore();
+  const timeline = TRIVIA_AND_CAREER_TIMELINE[language];
+  const triviaByProgress = timeline.slice(
     0,
-    Math.ceil(progress / (MAX_PROGRESS / TRIVIA_AND_CAREER_TIMELINE.length)),
+    Math.ceil(progress / (MAX_PROGRESS / timeline.length)),
   );
 
   return (
@@ -461,14 +467,27 @@ function formatProgress(progress: number) {
   return progress.toString();
 }
 
-const TRIVIA_AND_CAREER_TIMELINE = [
-  '2013.06: 프로그래밍에 관심을 갖고 C언어 입문서에 도전하다',
-  '2013.08: 포인터를 만나고 C언어를 그만두다',
-  '2019.09: 생활코딩을 접하고 다시 프로그래밍을 시작하다',
-  '2019.11: 웹 프론트엔드 개발자로 진로를 정하다',
-  '2020.12: 에이셀테크놀로지스 입사, 커리어 시작',
-  '2021.04: 회사가 강남역으로 이사 가다. 북적북적',
-  '2022.09: 선정릉에서의 새로운 사옥. 평화롭다. 지하철에서는 좀 멀어',
-  '2024.12: 충정로로 오다. 집에서 가까워!',
-  '2025.12: 잠시 멈춤, 재충전을 위한 시간',
-];
+const TRIVIA_AND_CAREER_TIMELINE = {
+  [BROWSER_LANGUAGE.KOREAN]: [
+    '2013.06: 프로그래밍에 관심을 갖고 C언어 입문서에 도전하다',
+    '2013.08: 포인터를 만나고 C언어를 그만두다',
+    '2019.09: 생활코딩을 접하고 다시 프로그래밍을 시작하다',
+    '2019.11: 웹 프론트엔드 개발자로 진로를 정하다',
+    '2020.12: 에이셀테크놀로지스 입사, 커리어 시작',
+    '2021.04: 회사가 강남역으로 이사 가다. 북적북적',
+    '2022.09: 선정릉에서의 새로운 사옥. 평화롭다. 지하철에서는 좀 멀어',
+    '2024.12: 충정로로 오다. 집에서 가까워!',
+    '2025.12: 잠시 멈춤, 재충전을 위한 시간',
+  ],
+  [BROWSER_LANGUAGE.ENGLISH]: [
+    '2013.06: Got interested in programming and challenged C language',
+    '2013.08: Encountered pointers and quit C language',
+    '2019.09: Encountered Opentutorials and restarted programming',
+    '2019.11: Decided to become a Web Frontend Developer',
+    '2020.12: Joined Acel Technologies, started career',
+    '2021.04: Moved to Gangnam Station. Very crowded',
+    '2022.09: New office at Seonjeongneung. Peaceful, but far from subway',
+    '2024.12: Moved to Chungjeongno. Close to home!',
+    '2025.12: Pause, time for recharge',
+  ],
+};

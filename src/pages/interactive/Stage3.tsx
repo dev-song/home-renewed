@@ -2,6 +2,7 @@ import { useRef, useState, useEffect, useMemo } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Box } from '@react-three/drei';
 import { resumeData } from '../../data/resumeData';
+import { useLanguageStore } from '../../store/languageStore';
 import * as THREE from 'three';
 
 // TODO: 추후 3D 두상 모델로 변경
@@ -98,6 +99,8 @@ const VoxelBox = ({
 };
 
 const Stage3 = () => {
+  const { language } = useLanguageStore();
+  const resumeDataByLanguage = resumeData[language];
   const voxels = useMemo(() => generateHeadData(), []);
   const [activeSection, setActiveSection] = useState<SectionType>(null);
   // Separate state to track if we should show the overlay (for unmounting animation if needed, but for now simple conditional)
@@ -173,10 +176,10 @@ const Stage3 = () => {
 
           {activeSection === 'hero_about' && (
             <>
-              <h2 className='text-xl font-bold mb-2'>{resumeData.hero.name}</h2>
-              <p className='text-gray-300 mb-4'>{resumeData.hero.tagline}</p>
+              <h2 className='text-xl font-bold mb-2'>{resumeDataByLanguage.hero.name}</h2>
+              <p className='text-gray-300 mb-4'>{resumeDataByLanguage.hero.tagline}</p>
               <div className='space-y-2'>
-                {resumeData.about.description.map((desc, i) => (
+                {resumeDataByLanguage.about.description.map((desc, i) => (
                   <p key={i} className='text-sm text-gray-400'>
                     {desc}
                   </p>
@@ -188,7 +191,7 @@ const Stage3 = () => {
           {activeSection === 'experience' && (
             <>
               <h2 className='text-xl font-bold mb-4'>Experience</h2>
-              {resumeData.experience.map((exp, i) => (
+              {resumeDataByLanguage.experience.map((exp, i) => (
                 <div key={i} className='mb-4 last:mb-0'>
                   <h3 className='font-bold'>{exp.company}</h3>
                   <p className='text-sm text-blue-300'>
@@ -203,7 +206,7 @@ const Stage3 = () => {
           {activeSection === 'skills' && (
             <>
               <h2 className='text-xl font-bold mb-4'>Skills</h2>
-              {resumeData.skills.map((skillGroup, i) => (
+              {resumeDataByLanguage.skills.map((skillGroup, i) => (
                 <div key={i} className='mb-4 last:mb-0'>
                   <h3 className='font-bold mb-2'>{skillGroup.category}</h3>
                   <div className='flex flex-wrap gap-2'>
@@ -221,7 +224,7 @@ const Stage3 = () => {
           {activeSection === 'projects' && (
             <>
               <h2 className='text-xl font-bold mb-4'>Projects</h2>
-              {resumeData.projects.map((project, i) => (
+              {resumeDataByLanguage.projects.map((project, i) => (
                 <div key={i} className='mb-6 last:mb-0 border-b border-gray-700 pb-4 last:border-0'>
                   <h3 className='font-bold'>{project.title}</h3>
                   <p className='text-sm text-gray-400 mt-1 mb-2'>{project.description}</p>
@@ -240,7 +243,7 @@ const Stage3 = () => {
           {activeSection === 'education_certs' && (
             <>
               <h2 className='text-xl font-bold mb-4'>Education</h2>
-              {resumeData.education.map((edu, i) => (
+              {resumeDataByLanguage.education.map((edu, i) => (
                 <div key={i} className='mb-4'>
                   <h3 className='font-bold'>{edu.school}</h3>
                   <p className='text-sm'>{edu.degree}</p>
@@ -249,7 +252,7 @@ const Stage3 = () => {
               ))}
 
               <h2 className='text-xl font-bold mb-4 mt-6'>Certificates</h2>
-              {resumeData.certificates.map((cert, i) => (
+              {resumeDataByLanguage.certificates.map((cert, i) => (
                 <div key={i} className='mb-2'>
                   <span className='block font-medium'>{cert.name}</span>
                   <span className='text-xs text-gray-400'>{cert.date}</span>
@@ -263,16 +266,17 @@ const Stage3 = () => {
               <h2 className='text-xl font-bold mb-4'>Contact</h2>
               <div className='space-y-2 text-sm'>
                 <p>
-                  <span className='text-gray-400'>Email:</span> {resumeData.contact.email}
+                  <span className='text-gray-400'>Email:</span> {resumeDataByLanguage.contact.email}
                 </p>
                 <p>
-                  <span className='text-gray-400'>Phone:</span> {resumeData.contact.phone}
+                  <span className='text-gray-400'>Phone:</span> {resumeDataByLanguage.contact.phone}
                 </p>
                 <p>
-                  <span className='text-gray-400'>Location:</span> {resumeData.contact.location}
+                  <span className='text-gray-400'>Location:</span>{' '}
+                  {resumeDataByLanguage.contact.location}
                 </p>
                 <div className='pt-2 flex gap-2'>
-                  {resumeData.hero.socials.map((social) => (
+                  {resumeDataByLanguage.hero.socials.map((social) => (
                     <a
                       key={social.name}
                       href={social.url}
