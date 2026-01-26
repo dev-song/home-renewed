@@ -115,9 +115,22 @@ const THEMES: Record<TerminalThemeKey, Theme> = {
   },
 };
 
+const TERMINAL_COMMAND_KEY = {
+  HELP: 'help',
+  ABOUT: 'about',
+  SKILLS: 'skills',
+  CONTACT: 'contact',
+  CLEAR: 'clear',
+  CONTINUE: 'c',
+  PAUSE: 'p',
+  EMPTY: '',
+  DO_NOT_USE_OR_YOU_WILL_BE_FIRED__SUDO: 'sudo',
+  DO_NOT_USE_OR_YOU_WILL_BE_FIRED__DELETE_EVERYTHING: 'rm -rf /',
+  USE_AND_BE_HAPPY__CAT: 'cat'
+} as const;
+
 // mode: progress/input
 const Terminal: React.FC = () => {
-  const { language } = useLanguageStore();
   const [history, setHistory] = useState<HistoryItem[]>([]);
   const [input, setInput] = useState<string>('');
   const [progress, setProgress] = useState(0);
@@ -159,7 +172,7 @@ const Terminal: React.FC = () => {
       const isInputFocused = document.activeElement === inputRef.current;
       if (isInputFocused) return;
 
-      const isPKeyPressed = e.key === 'p' || e.key === 'P';
+      const isPKeyPressed = e.key.toLowerCase() === TERMINAL_COMMAND_KEY.PAUSE;
       if (!isPKeyPressed) return;
 
       e.preventDefault();
@@ -197,86 +210,59 @@ const Terminal: React.FC = () => {
     };
   }, []);
 
-  // 터미널 어디든 클릭하면 동작 (일시정지 또는 입력창 포커스)
+  const handleContainerTouch = () => {  
+    if (isPaused) {
+      inputRef.current?.focus();
+    } else {
+      setIsPaused(true);
+    }
+  }
+
+
   const handleContainerClick = (e: React.MouseEvent) => {
-    // 드롭다운 클릭 시에는 포커스 이동 방지
+    // 드롭다운 클릭 시 포커스 이동 방지
     if (themeDropdownRef.current?.contains(e.target as Node)) {
       return;
     }
 
     if (isPaused) {
       inputRef.current?.focus();
-    } else {
-      setIsPaused(true);
-    }
+    } 
   };
+
 
   const handleCommand = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
+      const inputHistory: HistoryItem[] = [...history, { type: 'input', content: input }];
       const trimmedInput = input.trim().toLowerCase();
-      const newHistory: HistoryItem[] = [...history, { type: 'input', content: input }];
-
-      let response = '';
-
       switch (trimmedInput) {
-        case 'help':
-          response = 'Available commands: about, skills, contact, clear, c (continue)';
-          break;
-        case 'about':
-          response =
-            language === BROWSER_LANGUAGE.KOREAN
-              ? '안녕하세요! 웹 프론트엔드 개발자 송상수입니다.'
-              : 'Hello! I am Web Frontend Developer Sangsu Song.';
-          break;
-        case 'skills':
-          response = 'Typescript, React, Vite, Tailwind CSS, Next.js, Highcharts, ...';
-          break;
-        case 'contact':
-          response = `
-            Email: ${import.meta.env.VITE_DEV_EMAIL}\n
-            GitHub: ${import.meta.env.VITE_DEV_GITHUB_URL}\n
-            LinkedIn: ${import.meta.env.VITE_DEV_LINKEDIN_URL}
-          `;
-          break;
-        case 'sudo':
-          response = 'Permission denied: You are not the admin';
-          break;
-        case 'rm -rf /':
-          setIsShaking(true);
-          setTimeout(() => setIsShaking(false), 500);
-          response = 'CRITICAL ERROR: System deletion prevented.';
-          break;
-        case 'cat':
-          response = `
-            ⠀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣠⣶⣿⣶⡾⠁
-            ⠠⣿⡀⠀⠀⠀⢀⣀⣤⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠀
-            ⠀⠙⢿⣶⣶⣾⣿⠿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠛⠿⠃⠀
-            ⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡃⠀⠀⠀⠀
-            ⠀⠀⠀⠀⠀⠀⠀⣰⣿⣿⢿⣿⣿⠟⠁⠀⠀⠀⠈⢿⣿⠛⠻⢿⣦⡀⠀⠀
-            ⠀⠀⠀⠀⠀⠀⠀⣿⠟⠁⠘⢿⣿⠀⠀⠀⠀⠀⠀⠸⣿⡀⠀⠀⠹⠷⠀⠀
-            ⠀⠀⠀⠀⠀⠀⠀⣿⣤⠀⠀⠀⠙⠷⠶⠀⠀⠀⠀⠀⠙⠛⠁⠀⠀⠀⠀⠀
-          `
-          break;
-        case 'clear':
+        case TERMINAL_COMMAND_KEY.EMPTY:
+          setHistory(inputHistory);
+          return;
+        case TERMINAL_COMMAND_KEY.CLEAR:
           setHistory([]);
           setInput('');
           return;
-        case 'c':
-        case 'continue':
+
+        case TERMINAL_COMMAND_KEY.CONTINUE:
           setIsPaused(false);
-          response = 'Resuming progress...';
           break;
-        case '':
-          setHistory(newHistory);
-          return;
-        default:
-          response = `Command not supported: ${input}. Type "help" for available commands.`;
+        case TERMINAL_COMMAND_KEY.DO_NOT_USE_OR_YOU_WILL_BE_FIRED__DELETE_EVERYTHING:
+          setIsShaking(true);
+          setTimeout(() => setIsShaking(false), 500);
+          break;
       }
 
-      setHistory([...newHistory, { type: 'output', content: response }]);
+      const outputHistory: HistoryItem = {
+        type: 'output',
+        content: TERMINAL_RESPONSE_BY_COMMAND[trimmedInput] || `Command not supported: ${input}. Type "help" for available commands.`
+      }
+
+      setHistory([...inputHistory, outputHistory]);
       setInput('');
     }
   };
+
 
   return (
     <div
@@ -286,6 +272,7 @@ const Terminal: React.FC = () => {
         isShaking && 'animate-shake',
       )}
       onClick={handleContainerClick}
+      onTouchEnd={handleContainerTouch}
     >
       {/* 터미널 상단 바 */}
       <div
@@ -373,7 +360,7 @@ const Terminal: React.FC = () => {
           <div
             ref={scrollRef}
             className={cn(
-              'h-full overflow-y-auto mt-4 border-t pt-2 transition-colors duration-300',
+              'h-full overflow-y-auto mt-2 border-t pt-2 transition-colors duration-300',
               theme.colors.border,
             )}
           >
@@ -402,14 +389,14 @@ const Terminal: React.FC = () => {
             </div>
 
             <div className={cn('mt-2 text-xs', theme.colors.muted)}>
-              Type 'c' to continue, 'help' for commands.
+              Type '{TERMINAL_COMMAND_KEY.CONTINUE}' to continue, '{TERMINAL_COMMAND_KEY.HELP}' for commands.
             </div>
           </div>
         )}
 
         {!isPaused && (
           <div className={cn('mt-auto text-xs animate-pulse', theme.colors.muted)}>
-            Press 'p' to pause and enter commands.
+            Press '{TERMINAL_COMMAND_KEY.PAUSE}' to pause and enter commands.
           </div>
         )}
       </div>
@@ -461,11 +448,11 @@ const ProgressWithTrivia = ({
         </div>
       </div>
 
-      <div className='h-6 overflow-hidden'>
-        {triviaByProgress.reverse().map((el, index) => (
-          <div key={index} className='whitespace-pre-wrap'>
-            <span className={theme.colors.muted}>{el}</span>
-          </div>
+      <div className='h-auto'>
+        {triviaByProgress.reverse().map((item, index) => (
+          <p key={index} className={cn(theme.colors.muted, index !== 0 && 'hidden' )}>
+            {item}
+          </p>
         ))}
       </div>
     </div>
@@ -481,25 +468,44 @@ function formatProgress(progress: number) {
 
 const TRIVIA_AND_CAREER_TIMELINE = {
   [BROWSER_LANGUAGE.KOREAN]: [
-    '2013.06: 프로그래밍에 관심을 갖고 C언어 입문서에 도전하다',
-    '2013.08: 포인터를 만나고 C언어를 그만두다',
-    '2019.09: 생활코딩을 접하고 다시 프로그래밍을 시작하다',
-    '2019.11: 웹 프론트엔드 개발자로 진로를 정하다',
-    '2020.12: 에이셀테크놀로지스 입사, 커리어 시작',
-    '2021.04: 회사가 강남역으로 이사 가다. 북적북적',
-    '2022.09: 선정릉에서의 새로운 사옥. 평화롭다. 지하철에서는 좀 멀어',
-    '2024.12: 충정로로 오다. 집에서 가까워!',
-    '2025.12: 잠시 멈춤, 재충전을 위한 시간',
+    '2013.06: 프로그래밍을 해보고 싶어! 생애 첫 C언어 입문서를 구입하다.',
+    '2013.08: "포인터"를 접하다. 눈물을 흘리며 책을 덮다.',
+    '2019.09: 생활코딩을 접하고 프로그래밍을 다시 시작하다.',
+    '2019.12: 웹 프론트엔드 개발자가 되겠어!',
+    '2020.12: 에이셀테크놀로지스 입사: 프론트엔드 개발자로서 커리어 시작',
+    '2021.03: BigFinance 프로젝트에서 처음으로 독립적인 기능을 맡아 구현하다. 🚀',
+    '2024.01: 새로운 먹거리, epic AI의 프론트엔드를 책임지게 되다.',
+    '2025.10: epic AI의 성공적 출시! 내가 만든 제품이 광고판에 뜨다니 믿기지 않아.',
+    '2025.12: 잠시 쉬어가기, 재충전을 위한 시간. 🔋',
   ],
   [BROWSER_LANGUAGE.ENGLISH]: [
-    '2013.06: Got interested in programming and challenged C language',
-    '2013.08: Encountered pointers and quit C language',
-    '2019.09: Encountered Opentutorials and restarted programming',
-    '2019.11: Decided to become a Web Frontend Developer',
-    '2020.12: Joined Acel Technologies, started career',
-    '2021.04: Moved to Gangnam Station. Very crowded',
-    '2022.09: New office at Seonjeongneung. Peaceful, but far from subway',
-    '2024.12: Moved to Chungjeongno. Close to home!',
-    '2025.12: Pause, time for recharge',
+    '2013.06: Curiosity peaked! Bought my very first C programming book.',
+    '2013.08: Met "The Pointer." Cried a little, closed the book, and walked away',
+    '2019.09: Reunited with coding via Opentutorials.org. The spark was back!',
+    '2019.11: Decision made: I’m going to be a Web Frontend Developer.',
+    '2020.12: Officially kicked off my career at Aicel Technologies.',
+    '2021.04: Took ownership of my first independent feature in the BigFinance project. 🚀',
+    '2022.09: Stepped up to lead the frontend for our new venture, epic AI.',
+    '2024.12: epic AI successfully launched! Seeing my product on a billboard was surreal.',
+    '2025.12: Hitting the pause button for a well-deserved recharge. 🔋',
   ],
 };
+
+const TERMINAL_RESPONSE_BY_COMMAND: Record<string, string> = {
+  [TERMINAL_COMMAND_KEY.CONTINUE]: 'Resuming progress...',
+  [TERMINAL_COMMAND_KEY.HELP]: `Available commands: about, skills, contact, clear, c (continue)`,
+  [TERMINAL_COMMAND_KEY.ABOUT]: `Hello! I am Web Frontend Developer Sangsu Song.`,
+  [TERMINAL_COMMAND_KEY.SKILLS]: `Typescript, React, Vite, Tailwind CSS, Next.js, Highcharts, ...`,
+  [TERMINAL_COMMAND_KEY.CONTACT]: `Email: ${import.meta.env.VITE_DEV_EMAIL}\nGitHub: ${import.meta.env.VITE_DEV_GITHUB_URL}\nLinkedIn: ${import.meta.env.VITE_DEV_LINKEDIN_URL}`,
+  [TERMINAL_COMMAND_KEY.DO_NOT_USE_OR_YOU_WILL_BE_FIRED__SUDO]: 'PERMISSION DENIED: You are not the admin',
+  [TERMINAL_COMMAND_KEY.DO_NOT_USE_OR_YOU_WILL_BE_FIRED__DELETE_EVERYTHING]: 'CRITICAL ERROR: System deletion prevented.',
+  [TERMINAL_COMMAND_KEY.USE_AND_BE_HAPPY__CAT]: `
+⠀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣠⣶⣿⣶⡾⠁
+⠠⣿⡀⠀⠀⠀⢀⣀⣤⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠀
+⠀⠙⢿⣶⣶⣾⣿⠿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠛⠿⠃⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡃⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⣰⣿⣿⢿⣿⣿⠟⠁⠀⠀⠀⠈⢿⣿⠛⠻⢿⣦⡀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⣿⠟⠁⠘⢿⣿⠀⠀⠀⠀⠀⠀⠸⣿⡀⠀⠀⠹⠷⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⣿⣤⠀⠀⠀⠙⠷⠶⠀⠀⠀⠀⠀⠙⠛⠁⠀⠀⠀⠀⠀
+`
+} 
