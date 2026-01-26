@@ -1,73 +1,108 @@
-# React + TypeScript + Vite
+# Interactive Frontend Developer Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A unique, interactive portfolio project built with **React**, **TypeScript**, and **Vite**. This project showcases frontend development skills through multiple interactive "stages" and a professional standard resume view.
 
-Currently, two official plugins are available:
+## 🚀 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### 🎮 Interactive Mode
 
-## React Compiler
+The portfolio guides visitors through three distinct stages, each offering a unique way to view the resume data:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Stage 1: JSON Viewer**
+  - Explore the raw resume data in a fully functional JSON editor.
+  - Features syntax highlighting, search functionality, and minification/beautification.
+  - Includes multiple themes (VSCode, GitHub, Monokai, etc.) for a personalized reading experience.
 
-## Expanding the ESLint configuration
+- **Stage 2: Terminal Interface**
+  - A simulated developer terminal environment.
+  - Interactive command-line experience with theme support (Dark, Light, High Contrast, etc.).
+  - Includes a progress bar with trivia and easter eggs.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Stage 3: 3D Visualization**
+  - An interactive 3D scene built with **React Three Fiber**.
+  - Visualizes portfolio sections as interactive voxel cubes.
+  - Color-coded sections:
+    - 🔵 **Blue**: Hero & About
+    - 🟢 **Green**: Experience
+    - 🟡 **Yellow**: Skills
+    - 🔴 **Red**: Projects
+    - 🟣 **Purple**: Education & Certificates
+    - ⚪ **White**: Contact
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### 📄 Standard Mode
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- A clean, professional resume layout suitable for traditional viewing.
+- Optimized for readability and print.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 🌐 Internationalization
+
+- Full support for **English** and **Korean** languages, toggleable at any time.
+
+### 📄 PDF Export
+
+- Easily download the resume as a PDF.
+
+## 🛠 Tech Stack
+
+- **Core**: React 19, TypeScript, Vite
+- **Styling**: Tailwind CSS
+- **3D & Animation**: @react-three/fiber, @react-three/drei, Three.js
+- **State Management**: Zustand
+- **Routing**: React Router
+- **Icons**: Lucide React
+- **Utilities**: @uiw/react-json-view
+
+## 📦 Getting Started
+
+### Prerequisites
+
+- Node.js (Latest LTS recommended)
+- pnpm
+
+### Installation
+
+1.  Clone the repository:
+
+    ```bash
+    git clone https://github.com/dev-song/home-renewed.git
+    cd home-renewed
+    ```
+
+2.  Install dependencies:
+
+    ```bash
+    pnpm install
+    ```
+
+3.  Start the development server:
+
+    ```bash
+    pnpm dev
+    ```
+
+4.  Open your browser and navigate to `http://localhost:5173`.
+
+## 🏗 Project Structure
+
+```
+src/
+├── components/     # Reusable UI components
+├── data/           # Resume data (resumeData.ts)
+├── pages/
+│   ├── interactive/ # Interactive stages (Stage1, Stage2, Stage3)
+│   └── standard/    # Standard resume view
+├── store/          # Zustand state stores (language, etc.)
+└── ...
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 📜 Scripts
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- `pnpm dev`: Start the development server.
+- `pnpm build`: Build the project for production.
+- `pnpm preview`: Preview the production build locally.
+- `pnpm lint`: Run ESLint.
+- `pnpm analyze`: Analyze the bundle size.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 📄 License
+
+[MIT](LICENSE.md)
