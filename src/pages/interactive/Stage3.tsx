@@ -4,6 +4,7 @@ import { OrbitControls, Box } from '@react-three/drei';
 import { resumeData } from '../../data/resumeData';
 import { useLanguageStore } from '../../store/languageStore';
 import * as THREE from 'three';
+import { X } from 'lucide-react';
 
 // TODO: 추후 3D 두상 모델로 변경
 const generateHeadData = () => {
@@ -22,16 +23,43 @@ const generateHeadData = () => {
   return points;
 };
 
-const MESH_COLOR = ['#A0C4FF', '#CAFFBF', '#FDFFB6', '#FFADAD', '#BDB2FF', '#FFFFFF'];
+const SECTION_TYPE = {
+  HERO_ABOUT: 'hero_about',
+  EXPERIENCE: 'experience',
+  SKILLS: 'skills',
+  PROJECTS: 'projects',
+  EDUCATION_CERTIFICATES: 'education_certificates',
+  CONTACT: 'contact',
+} as const;
+type SectionType = typeof SECTION_TYPE[keyof typeof SECTION_TYPE];
 
-type SectionType =
-  | 'hero_about'
-  | 'experience'
-  | 'skills'
-  | 'projects'
-  | 'education_certs'
-  | 'contact'
-  | null;
+const COLOR_BY_SECTION_TYPE = {
+  [SECTION_TYPE.HERO_ABOUT]: '#90B4EF',
+  [SECTION_TYPE.EXPERIENCE]: '#BAEFAF',
+  [SECTION_TYPE.SKILLS]: '#EDEFA6',
+  [SECTION_TYPE.PROJECTS]: '#EF9D9D',
+  [SECTION_TYPE.EDUCATION_CERTIFICATES]: '#ADA2EF',
+  [SECTION_TYPE.CONTACT]: '#EFEFEF',
+}
+
+const ORDERED_SECTION = [
+  SECTION_TYPE.HERO_ABOUT,
+  SECTION_TYPE.EXPERIENCE,
+  SECTION_TYPE.SKILLS,
+  SECTION_TYPE.PROJECTS,
+  SECTION_TYPE.EDUCATION_CERTIFICATES,
+  SECTION_TYPE.CONTACT,
+]
+
+const LEGEND_LABEL_BY_SECTION = {
+  [SECTION_TYPE.HERO_ABOUT]: 'Hero & About',
+  [SECTION_TYPE.EXPERIENCE]: 'Experience',
+  [SECTION_TYPE.SKILLS]: 'Skills',
+  [SECTION_TYPE.PROJECTS]: 'Projects',
+  [SECTION_TYPE.EDUCATION_CERTIFICATES]: 'Education',
+  [SECTION_TYPE.CONTACT]: 'Contact',
+}
+
 
 const VoxelBox = ({
   position,
@@ -102,47 +130,24 @@ const Stage3 = () => {
   const { language } = useLanguageStore();
   const resumeDataByLanguage = resumeData[language];
   const voxels = useMemo(() => generateHeadData(), []);
-  const [activeSection, setActiveSection] = useState<SectionType>(null);
-  // Separate state to track if we should show the overlay (for unmounting animation if needed, but for now simple conditional)
-  // We can just use activeSection for simple mount/unmount.
+  const [activeSection, setActiveSection] = useState<SectionType | null>(null);
 
   const handleClick = (index: number) => {
-    const colorIndex = index % MESH_COLOR.length;
-    switch (colorIndex) {
-      case 0: // #A0C4FF - Hero & About
-        setActiveSection('hero_about');
-        break;
-      case 1: // #CAFFBF - Experience
-        setActiveSection('experience');
-        break;
-      case 2: // #FDFFB6 - Skills
-        setActiveSection('skills');
-        break;
-      case 3: // #FFADAD - Projects
-        setActiveSection('projects');
-        break;
-      case 4: // #BDB2FF - Education & Certificates
-        setActiveSection('education_certs');
-        break;
-      case 5: // #FFFFFF - Contact
-        setActiveSection('contact');
-        break;
-      default:
-        setActiveSection(null);
-    }
+    const sectionIndex = index % ORDERED_SECTION.length;
+    setActiveSection(ORDERED_SECTION[sectionIndex]);
   };
 
   return (
     <div style={{ width: '100vw', height: '100vh', background: '#111', position: 'relative' }}>
       <Canvas camera={{ position: [5, 5, 5] }} onPointerMissed={() => setActiveSection(null)}>
-        <ambientLight intensity={0.5} />
+        <ambientLight intensity={0.8} />
         <pointLight position={[10, 10, 10]} />
 
         {voxels.map((pos, idx) => (
           <VoxelBox
             key={idx}
             position={pos as [number, number, number]}
-            color={MESH_COLOR[idx % MESH_COLOR.length]}
+            color={COLOR_BY_SECTION_TYPE[ORDERED_SECTION[idx % ORDERED_SECTION.length]]}
             onClick={() => handleClick(idx)}
           />
         ))}
@@ -167,32 +172,14 @@ const Stage3 = () => {
         <h3 className='text-white font-bold mb-2 text-xs uppercase tracking-wider border-b border-gray-600 pb-1'>
           Legend
         </h3>
-        <div className='flex flex-col gap-2'>
-          <div className='flex items-center gap-2'>
-            <div style={{ width: 12, height: 12, background: '#A0C4FF', borderRadius: 2 }}></div>
-            <span className='text-gray-200'>Hero & About</span>
-          </div>
-          <div className='flex items-center gap-2'>
-            <div style={{ width: 12, height: 12, background: '#CAFFBF', borderRadius: 2 }}></div>
-            <span className='text-gray-200'>Experience</span>
-          </div>
-          <div className='flex items-center gap-2'>
-            <div style={{ width: 12, height: 12, background: '#FDFFB6', borderRadius: 2 }}></div>
-            <span className='text-gray-200'>Skills</span>
-          </div>
-          <div className='flex items-center gap-2'>
-            <div style={{ width: 12, height: 12, background: '#FFADAD', borderRadius: 2 }}></div>
-            <span className='text-gray-200'>Projects</span>
-          </div>
-          <div className='flex items-center gap-2'>
-            <div style={{ width: 12, height: 12, background: '#BDB2FF', borderRadius: 2 }}></div>
-            <span className='text-gray-200'>Education</span>
-          </div>
-          <div className='flex items-center gap-2'>
-            <div style={{ width: 12, height: 12, background: '#FFFFFF', borderRadius: 2 }}></div>
-            <span className='text-gray-200'>Contact</span>
-          </div>
-        </div>
+        <ul className='flex flex-col gap-2'>
+          {ORDERED_SECTION.map((section, idx) => (
+          <li key={idx} className='flex items-center gap-2'>
+            <div className='w-3 h-3 rounded-xs' style={{ background: COLOR_BY_SECTION_TYPE[section] }}></div>
+            <span className='text-gray-200'>{LEGEND_LABEL_BY_SECTION[section]}</span>
+          </li>
+          ))}
+        </ul>
       </div>
 
       {activeSection && (
@@ -216,10 +203,10 @@ const Stage3 = () => {
             onClick={() => setActiveSection(null)}
             className='absolute top-2 right-2 text-gray-400 hover:text-white'
           >
-            ✕
+            <X />
           </button>
 
-          {activeSection === 'hero_about' && (
+          {activeSection === SECTION_TYPE.HERO_ABOUT && (
             <>
               <h2 className='text-xl font-bold mb-2'>{resumeDataByLanguage.hero.name}</h2>
               <p className='text-gray-300 mb-4'>{resumeDataByLanguage.hero.tagline}</p>
@@ -233,7 +220,7 @@ const Stage3 = () => {
             </>
           )}
 
-          {activeSection === 'experience' && (
+          {activeSection === SECTION_TYPE.EXPERIENCE && (
             <>
               <h2 className='text-xl font-bold mb-4'>Experience</h2>
               {resumeDataByLanguage.experience.map((exp, i) => (
@@ -248,7 +235,7 @@ const Stage3 = () => {
             </>
           )}
 
-          {activeSection === 'skills' && (
+          {activeSection === SECTION_TYPE.SKILLS && (
             <>
               <h2 className='text-xl font-bold mb-4'>Skills</h2>
               {resumeDataByLanguage.skills.map((skillGroup, i) => (
@@ -266,7 +253,7 @@ const Stage3 = () => {
             </>
           )}
 
-          {activeSection === 'projects' && (
+          {activeSection === SECTION_TYPE.PROJECTS && (
             <>
               <h2 className='text-xl font-bold mb-4'>Projects</h2>
               {resumeDataByLanguage.projects.map((project, i) => (
@@ -285,7 +272,7 @@ const Stage3 = () => {
             </>
           )}
 
-          {activeSection === 'education_certs' && (
+          {activeSection === SECTION_TYPE.EDUCATION_CERTIFICATES && (
             <>
               <h2 className='text-xl font-bold mb-4'>Education</h2>
               {resumeDataByLanguage.education.map((edu, i) => (
@@ -306,7 +293,7 @@ const Stage3 = () => {
             </>
           )}
 
-          {activeSection === 'contact' && (
+          {activeSection === SECTION_TYPE.CONTACT && (
             <>
               <h2 className='text-xl font-bold mb-4'>Contact</h2>
               <div className='space-y-2 text-sm'>
