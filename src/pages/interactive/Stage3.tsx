@@ -150,6 +150,51 @@ const Stage3 = () => {
         <OrbitControls enablePan={false} />
       </Canvas>
 
+      {/* Legend */}
+      <div
+        style={{
+          position: 'absolute',
+          bottom: '20px',
+          right: '20px',
+          background: 'rgba(0, 0, 0, 0.6)',
+          padding: '15px',
+          borderRadius: '8px',
+          backdropFilter: 'blur(3px)',
+          pointerEvents: 'none',
+        }}
+        className='font-sans text-sm'
+      >
+        <h3 className='text-white font-bold mb-2 text-xs uppercase tracking-wider border-b border-gray-600 pb-1'>
+          Legend
+        </h3>
+        <div className='flex flex-col gap-2'>
+          <div className='flex items-center gap-2'>
+            <div style={{ width: 12, height: 12, background: '#A0C4FF', borderRadius: 2 }}></div>
+            <span className='text-gray-200'>Hero & About</span>
+          </div>
+          <div className='flex items-center gap-2'>
+            <div style={{ width: 12, height: 12, background: '#CAFFBF', borderRadius: 2 }}></div>
+            <span className='text-gray-200'>Experience</span>
+          </div>
+          <div className='flex items-center gap-2'>
+            <div style={{ width: 12, height: 12, background: '#FDFFB6', borderRadius: 2 }}></div>
+            <span className='text-gray-200'>Skills</span>
+          </div>
+          <div className='flex items-center gap-2'>
+            <div style={{ width: 12, height: 12, background: '#FFADAD', borderRadius: 2 }}></div>
+            <span className='text-gray-200'>Projects</span>
+          </div>
+          <div className='flex items-center gap-2'>
+            <div style={{ width: 12, height: 12, background: '#BDB2FF', borderRadius: 2 }}></div>
+            <span className='text-gray-200'>Education</span>
+          </div>
+          <div className='flex items-center gap-2'>
+            <div style={{ width: 12, height: 12, background: '#FFFFFF', borderRadius: 2 }}></div>
+            <span className='text-gray-200'>Contact</span>
+          </div>
+        </div>
+      </div>
+
       {activeSection && (
         <div
           className='animate-fade-in'
