@@ -50,20 +50,6 @@ const languageAgnosticData = {
     },
     { category: 'Tools', items: ['Git', 'Figma', 'Slack', 'Asana', 'Jira'] },
   ],
-  // certificates: [
-  //   {
-  //     name: 'AWS Certified Developer - Associate',
-  //     date: '2025.01',
-  //   },
-  //   {
-  //     name: 'AWS Certified Solutions Architect - Associate',
-  //     date: '2024.09',
-  //   },
-  //   {
-  //     name: '정보처리기사', // Usually keep original name for local certs or translate: 'Engineer Information Processing'
-  //     date: '2024.09',
-  //   },
-  // ],
   media: {
     epicAi: [
       {
