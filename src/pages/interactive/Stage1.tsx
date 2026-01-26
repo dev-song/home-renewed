@@ -1,4 +1,5 @@
 import JsonView from '@uiw/react-json-view';
+import { motion } from 'motion/react';
 import { resumeData } from '../../data/resumeData';
 import { lightTheme } from '@uiw/react-json-view/light';
 import { darkTheme } from '@uiw/react-json-view/dark';
@@ -12,6 +13,7 @@ import { basicTheme } from '@uiw/react-json-view/basic';
 import { useState } from 'react';
 import Highlighter from 'react-highlight-words';
 import { useLanguageStore } from '../../store/languageStore';
+import { cn } from '../../lib/utils';
 
 const JSON_FORMAT_MODE = {
   MINIFY: 'minify',
@@ -66,20 +68,20 @@ export default function Stage1() {
 
   return (
     <div className='flex flex-col h-full overflow-hidden'>
-      <header className='flex flex-col gap-2 md:flex-row md:items-center md:gap-4 p-4'>
+      <header className='flex flex-col gap-2 md:flex-row md:items-center md:gap-4 px-4 pt-8 pb-2 md:py-4'>
         <input
           type='text'
           placeholder='Search keys or values...'
-          className='w-80 p-2 bg-[#161b22] border border-gray-600 rounded text-gray-300 focus:outline-none focus:border-blue-500'
+          className='w-80 max-w-full h-10 px-2 bg-[#161b22] border border-gray-600 rounded text-gray-300 focus:outline-none focus:border-blue-500'
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
 
-        <div className='flex items-center gap-2'>
+        <div className='flex items-center gap-2 md:gap-4'>
           <select
             value={currentTheme}
             onChange={(e) => setCurrentTheme(e.target.value)}
-            className='w-40 p-2 bg-[#161b22] border border-gray-600 rounded text-gray-300 focus:outline-none focus:border-blue-500'
+            className='min-w-36 h-10 px-2 bg-[#161b22] border border-gray-600 rounded text-gray-300 focus:outline-none focus:border-blue-500'
           >
             {jsonViewThemeTypes.map((themeType) => (
               <option key={themeType} value={themeType}>
@@ -88,31 +90,32 @@ export default function Stage1() {
             ))}
           </select>
 
-          <div className='relative'>
-            {/* 배경 강조판 */}
-            <div
-              style={{
-                position: 'absolute',
-                width: mode === JSON_FORMAT_MODE.MINIFY ? '96px' : '64px',
-                height: '100%',
-                background: '#fff',
-                opacity: 0.5,
-                transition: 'all 0.3s ease-out',
-                transform: mode === JSON_FORMAT_MODE.MINIFY ? 'translateX(0)' : 'translateX(96px)',
-              }}
-            />
-            <button className='w-24 capitalize' onClick={() => setMode(JSON_FORMAT_MODE.MINIFY)}>
-              {JSON_FORMAT_MODE.MINIFY}
-            </button>
-            <button className='w-16 capitalize' onClick={() => setMode(JSON_FORMAT_MODE.BEAUTIFY)}>
-              {JSON_FORMAT_MODE.BEAUTIFY}
-            </button>
+          <div className='relative flex-1 flex items-center h-10 bg-[#161b22] border border-gray-600 rounded p-1'>
+            {[JSON_FORMAT_MODE.MINIFY, JSON_FORMAT_MODE.BEAUTIFY].map((m) => (
+              <button
+                key={m}
+                onClick={() => setMode(m)}
+                className={cn(
+                  'relative z-10 w-1/2 h-full px-2 text-sm font-medium capitalize transition-colors duration-200',
+                  mode === m ? 'text-black' : 'text-gray-400 hover:text-gray-200'
+                )}
+              >
+                {mode === m && (
+                  <motion.div
+                    layoutId='active-pill'
+                    className='absolute inset-0 bg-white rounded'
+                    transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
+                  />
+                )}
+                <span className='relative z-10'>{m}</span>
+              </button>
+            ))}
           </div>
         </div>
       </header>
       <div className='flex-1 px-4 overflow-auto'>
         {mode === JSON_FORMAT_MODE.BEAUTIFY ? (
-          <JsonView value={resumeDataByLanguage} style={JSON_VIEW_THEME[currentTheme]}>
+          <JsonView value={resumeDataByLanguage} className='break-all' style={JSON_VIEW_THEME[currentTheme]}>
             <JsonView.String
               render={(props, { type, value }) => (
                 <span {...props}>

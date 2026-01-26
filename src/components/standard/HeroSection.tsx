@@ -17,7 +17,7 @@ interface HeroData {
 export default function HeroSection({ hero }: { hero: HeroData }) {
   return (
     <header className='bg-white border-b border-gray-200'>
-      <div className='max-w-5xl mx-auto px-6 py-12 md:py-16'>
+      <div className='max-w-5xl mx-auto px-6 pt-16 pb-12 md:pb-16'>
         <h1 className='text-4xl md:text-5xl font-bold tracking-tight text-gray-900 mb-4'>
           {hero.name}
         </h1>
