@@ -1,11 +1,11 @@
+import React, { useState, useEffect, useRef, type KeyboardEvent } from 'react';
+import { cn } from '../../../lib/utils';
+import { ChevronDown, Moon, Sun, Coffee, Circle, Contrast } from 'lucide-react';
+import { BROWSER_LANGUAGE, useLanguageStore } from '../../../store/languageStore';
+
 export default function Stage2() {
   return <Terminal />;
 }
-
-import React, { useState, useEffect, useRef, type KeyboardEvent } from 'react';
-import { cn } from '../../lib/utils';
-import { ChevronDown, Moon, Sun, Coffee, Circle, Contrast } from 'lucide-react';
-import { BROWSER_LANGUAGE, useLanguageStore } from '../../store/languageStore';
 
 interface HistoryItem {
   type: 'input' | 'output';
@@ -126,7 +126,7 @@ const TERMINAL_COMMAND_KEY = {
   EMPTY: '',
   DO_NOT_USE_OR_YOU_WILL_BE_FIRED__SUDO: 'sudo',
   DO_NOT_USE_OR_YOU_WILL_BE_FIRED__DELETE_EVERYTHING: 'rm -rf /',
-  USE_AND_BE_HAPPY__CAT: 'cat'
+  USE_AND_BE_HAPPY__CAT: 'cat',
 } as const;
 
 // mode: progress/input
@@ -210,14 +210,13 @@ const Terminal: React.FC = () => {
     };
   }, []);
 
-  const handleContainerTouch = () => {  
+  const handleContainerTouch = () => {
     if (isPaused) {
       inputRef.current?.focus();
     } else {
       setIsPaused(true);
     }
-  }
-
+  };
 
   const handleContainerClick = (e: React.MouseEvent) => {
     // 드롭다운 클릭 시 포커스 이동 방지
@@ -227,9 +226,8 @@ const Terminal: React.FC = () => {
 
     if (isPaused) {
       inputRef.current?.focus();
-    } 
+    }
   };
-
 
   const handleCommand = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
@@ -255,14 +253,15 @@ const Terminal: React.FC = () => {
 
       const outputHistory: HistoryItem = {
         type: 'output',
-        content: TERMINAL_RESPONSE_BY_COMMAND[trimmedInput] || `Command not supported: ${input}. Type "help" for available commands.`
-      }
+        content:
+          TERMINAL_RESPONSE_BY_COMMAND[trimmedInput] ||
+          `Command not supported: ${input}. Type "help" for available commands.`,
+      };
 
       setHistory([...inputHistory, outputHistory]);
       setInput('');
     }
   };
-
 
   return (
     <div
@@ -389,7 +388,8 @@ const Terminal: React.FC = () => {
             </div>
 
             <div className={cn('mt-2 text-xs', theme.colors.muted)}>
-              Type '{TERMINAL_COMMAND_KEY.CONTINUE}' to continue, '{TERMINAL_COMMAND_KEY.HELP}' for commands.
+              Type '{TERMINAL_COMMAND_KEY.CONTINUE}' to continue, '{TERMINAL_COMMAND_KEY.HELP}' for
+              commands.
             </div>
           </div>
         )}
@@ -450,7 +450,7 @@ const ProgressWithTrivia = ({
 
       <div className='h-auto'>
         {triviaByProgress.reverse().map((item, index) => (
-          <p key={index} className={cn(theme.colors.muted, index !== 0 && 'hidden' )}>
+          <p key={index} className={cn(theme.colors.muted, index !== 0 && 'hidden')}>
             {item}
           </p>
         ))}
@@ -497,8 +497,10 @@ const TERMINAL_RESPONSE_BY_COMMAND: Record<string, string> = {
   [TERMINAL_COMMAND_KEY.ABOUT]: `Hello! I am Web Frontend Developer Sangsu Song.`,
   [TERMINAL_COMMAND_KEY.SKILLS]: `Typescript, React, Vite, Tailwind CSS, Next.js, Highcharts, ...`,
   [TERMINAL_COMMAND_KEY.CONTACT]: `Email: ${import.meta.env.VITE_DEV_EMAIL}\nGitHub: ${import.meta.env.VITE_DEV_GITHUB_URL}\nLinkedIn: ${import.meta.env.VITE_DEV_LINKEDIN_URL}`,
-  [TERMINAL_COMMAND_KEY.DO_NOT_USE_OR_YOU_WILL_BE_FIRED__SUDO]: 'PERMISSION DENIED: You are not the admin',
-  [TERMINAL_COMMAND_KEY.DO_NOT_USE_OR_YOU_WILL_BE_FIRED__DELETE_EVERYTHING]: 'CRITICAL ERROR: System deletion prevented.',
+  [TERMINAL_COMMAND_KEY.DO_NOT_USE_OR_YOU_WILL_BE_FIRED__SUDO]:
+    'PERMISSION DENIED: You are not the admin',
+  [TERMINAL_COMMAND_KEY.DO_NOT_USE_OR_YOU_WILL_BE_FIRED__DELETE_EVERYTHING]:
+    'CRITICAL ERROR: System deletion prevented.',
   [TERMINAL_COMMAND_KEY.USE_AND_BE_HAPPY__CAT]: `
 ⠀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣠⣶⣿⣶⡾⠁
 ⠠⣿⡀⠀⠀⠀⢀⣀⣤⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠀
@@ -507,5 +509,5 @@ const TERMINAL_RESPONSE_BY_COMMAND: Record<string, string> = {
 ⠀⠀⠀⠀⠀⠀⠀⣰⣿⣿⢿⣿⣿⠟⠁⠀⠀⠀⠈⢿⣿⠛⠻⢿⣦⡀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⣿⠟⠁⠘⢿⣿⠀⠀⠀⠀⠀⠀⠸⣿⡀⠀⠀⠹⠷⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⣿⣤⠀⠀⠀⠙⠷⠶⠀⠀⠀⠀⠀⠙⠛⠁⠀⠀⠀⠀⠀
-`
-} 
+`,
+};

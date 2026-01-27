@@ -1,6 +1,6 @@
 import { Routes, Route, useLocation } from 'react-router';
-import ResumePage from './pages/standard/ResumePage';
-import InteractivePage from './pages/interactive/InteractivePage';
+import StandardResume from './pages/StandardResume';
+import InteractiveResume from './pages/InteractiveResume';
 import ResumeSwitchLink from './components/ResumeSwitchLink';
 import { RESUME_MODE } from './constants';
 import NavSeparator from './components/NavSeparator';
@@ -25,8 +25,8 @@ function App() {
       </nav>
 
       <Routes>
-        <Route path='/' element={<ResumePage />} />
-        <Route path='/interactive' element={<InteractivePage />} />
+        <Route path='/' element={<StandardResume />} />
+        <Route path='/interactive' element={<InteractiveResume />} />
       </Routes>
     </>
   );

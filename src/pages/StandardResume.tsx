@@ -1,14 +1,14 @@
-import { resumeData } from '../../data/resumeData';
-import { useLanguageStore } from '../../store/languageStore';
-import HeroSection from '../../components/standard/HeroSection';
-import AboutSection from '../../components/standard/AboutSection';
-import ExperienceSection from '../../components/standard/ExperienceSection';
-import SkillsSection from '../../components/standard/SkillsSection';
-import ProjectsSection from '../../components/standard/ProjectsSection';
-import ContactSection from '../../components/standard/ContactSection';
-import Footer from '../../components/standard/Footer';
-import EducationSection from '../../components/standard/EducationSection';
-import CertificatesSection from '../../components/standard/CertificatesSection';
+import { resumeData } from '../data/resumeData';
+import { useLanguageStore } from '../store/languageStore';
+import HeroSection from '../components/standard/HeroSection';
+import AboutSection from '../components/standard/AboutSection';
+import ExperienceSection from '../components/standard/ExperienceSection';
+import SkillsSection from '../components/standard/SkillsSection';
+import ProjectsSection from '../components/standard/ProjectsSection';
+import ContactSection from '../components/standard/ContactSection';
+import Footer from '../components/standard/Footer';
+import EducationSection from '../components/standard/EducationSection';
+import CertificatesSection from '../components/standard/CertificatesSection';
 
 export default function ResumePage() {
   const { language } = useLanguageStore();

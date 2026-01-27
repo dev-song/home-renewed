@@ -1,8 +1,8 @@
 import { useRef, useState, useEffect, useMemo } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Box } from '@react-three/drei';
-import { resumeData } from '../../data/resumeData';
-import { useLanguageStore } from '../../store/languageStore';
+import { resumeData } from '../../../data/resumeData';
+import { useLanguageStore } from '../../../store/languageStore';
 import * as THREE from 'three';
 import { X } from 'lucide-react';
 
@@ -31,7 +31,7 @@ const SECTION_TYPE = {
   EDUCATION_CERTIFICATES: 'education_certificates',
   CONTACT: 'contact',
 } as const;
-type SectionType = typeof SECTION_TYPE[keyof typeof SECTION_TYPE];
+type SectionType = (typeof SECTION_TYPE)[keyof typeof SECTION_TYPE];
 
 const COLOR_BY_SECTION_TYPE = {
   [SECTION_TYPE.HERO_ABOUT]: '#90B4EF',
@@ -40,7 +40,7 @@ const COLOR_BY_SECTION_TYPE = {
   [SECTION_TYPE.PROJECTS]: '#EF9D9D',
   [SECTION_TYPE.EDUCATION_CERTIFICATES]: '#ADA2EF',
   [SECTION_TYPE.CONTACT]: '#EFEFEF',
-}
+};
 
 const ORDERED_SECTION = [
   SECTION_TYPE.HERO_ABOUT,
@@ -49,7 +49,7 @@ const ORDERED_SECTION = [
   SECTION_TYPE.PROJECTS,
   SECTION_TYPE.EDUCATION_CERTIFICATES,
   SECTION_TYPE.CONTACT,
-]
+];
 
 const LEGEND_LABEL_BY_SECTION = {
   [SECTION_TYPE.HERO_ABOUT]: 'Hero & About',
@@ -58,8 +58,7 @@ const LEGEND_LABEL_BY_SECTION = {
   [SECTION_TYPE.PROJECTS]: 'Projects',
   [SECTION_TYPE.EDUCATION_CERTIFICATES]: 'Education',
   [SECTION_TYPE.CONTACT]: 'Contact',
-}
-
+};
 
 const VoxelBox = ({
   position,
@@ -174,10 +173,13 @@ const Stage3 = () => {
         </h3>
         <ul className='flex flex-col gap-2'>
           {ORDERED_SECTION.map((section, idx) => (
-          <li key={idx} className='flex items-center gap-2'>
-            <div className='w-3 h-3 rounded-xs' style={{ background: COLOR_BY_SECTION_TYPE[section] }}></div>
-            <span className='text-gray-200'>{LEGEND_LABEL_BY_SECTION[section]}</span>
-          </li>
+            <li key={idx} className='flex items-center gap-2'>
+              <div
+                className='w-3 h-3 rounded-xs'
+                style={{ background: COLOR_BY_SECTION_TYPE[section] }}
+              ></div>
+              <span className='text-gray-200'>{LEGEND_LABEL_BY_SECTION[section]}</span>
+            </li>
           ))}
         </ul>
       </div>
