@@ -48,7 +48,7 @@ function App() {
 
           <a
             href={resumePdf}
-            download='웹 프론트엔드 개발자 - 송상수.pdf'
+            download={PDF_FILENAME[language]}
             className='flex items-center gap-1.5 text-sm font-medium text-white/80 hover:text-white transition-colors'
             data-umami-event='PDF download button'
           >
@@ -72,3 +72,8 @@ const LANGUAGE_LABEL = {
   [BROWSER_LANGUAGE.KOREAN]: '한국어',
   [BROWSER_LANGUAGE.ENGLISH]: 'English',
 };
+
+const PDF_FILENAME = {
+  [BROWSER_LANGUAGE.KOREAN]: '웹 프론트엔드 개발자 이력서 - 송상수.pdf',
+  [BROWSER_LANGUAGE.ENGLISH]: 'Web Frontend Developer Resume - Sangsu Song.pdf',
+}
