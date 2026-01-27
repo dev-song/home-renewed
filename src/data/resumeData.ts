@@ -32,7 +32,7 @@ const languageAgnosticData = {
         'Highcharts',
         'GraphQL',
         'SCSS',
-        'd3.js',
+        'D3.js',
       ],
     },
     {
@@ -54,9 +54,9 @@ const languageAgnosticData = {
     epicAi: [
       {
         type: 'video' as const,
-        url: PROJECT_VIDEO.EPIC_AI_FEEDS,
-        thumbnail: epicAiFeeds,
-        alt: 'epic AI - Feeds',
+        url: PROJECT_VIDEO.EPIC_AI_COPILOT,
+        thumbnail: epicAiCopilot,
+        alt: 'epic AI - Copilot',
       },
       {
         type: 'video' as const,
@@ -66,17 +66,21 @@ const languageAgnosticData = {
       },
       {
         type: 'video' as const,
-        url: PROJECT_VIDEO.EPIC_AI_COPILOT,
-        thumbnail: epicAiCopilot,
-        alt: 'epic AI - Copilot',
-      },
-      {
-        type: 'video' as const,
         url: PROJECT_VIDEO.EPIC_AI_COMPANY_ANALYSIS,
         thumbnail: epicAiDashboard,
         alt: 'epic AI - Company Analysis',
       },
-      { type: 'image' as const, url: epicAiFinancialComparison },
+      {
+        type: 'video' as const,
+        url: PROJECT_VIDEO.EPIC_AI_FEEDS,
+        thumbnail: epicAiFeeds,
+        alt: 'epic AI - Feeds',
+      },
+      {
+        type: 'image' as const,
+        url: epicAiFinancialComparison,
+        alt: 'epic AI - Financial Comparison',
+      },
     ],
     epicFinance: [
       {

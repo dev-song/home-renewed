@@ -2,24 +2,33 @@ import { Link } from 'react-router';
 import { RESUME_MODE, type ResumeMode } from '../constants';
 import { cn } from '../lib/utils';
 
-export default function ResumeSwitchLink({ mode }: { mode: ResumeMode }) {
+interface ResumeSwitchLinkProps {
+  mode: ResumeMode;
+}
+
+export default function ResumeSwitchLink({ mode }: ResumeSwitchLinkProps) {
   return (
     <Link
-      to={RESUME_PATH_BY_MODE[mode]}
+      to={SWITCH_PATH_BY_RESUME_MODE[mode]}
       className={cn(
         'transition-colors text-sm font-medium capitalize',
-        mode === RESUME_MODE.INTERACTIVE
+        mode === RESUME_MODE.STANDARD
           ? 'text-emerald-300 hover:text-emerald-200'
           : 'text-white/80 hover:text-white',
       )}
       data-umami-event='Standard resume button'
     >
-      {mode}
+      {SWITCH_BUTTON_LABEL_BY_RESUME_MODE[mode]}
     </Link>
   );
 }
 
-const RESUME_PATH_BY_MODE = {
-  [RESUME_MODE.STANDARD]: '/',
-  [RESUME_MODE.INTERACTIVE]: '/interactive',
+const SWITCH_PATH_BY_RESUME_MODE = {
+  [RESUME_MODE.STANDARD]: '/interactive',
+  [RESUME_MODE.INTERACTIVE]: '/',
+};
+
+const SWITCH_BUTTON_LABEL_BY_RESUME_MODE = {
+  [RESUME_MODE.STANDARD]: 'Interactive',
+  [RESUME_MODE.INTERACTIVE]: 'Standard',
 };
