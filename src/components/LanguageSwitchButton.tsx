@@ -11,12 +11,12 @@ export default function LanguageSwitchButton() {
       data-umami-event='Language toggle button'
     >
       <Globe size={14} />
-      <span>{LANGUAGE_LABEL[language]}</span>
+      <span>{LANGUAGE_TOGGLE_LABEL[language]}</span>
     </button>
   );
 }
 
-const LANGUAGE_LABEL = {
-  [BROWSER_LANGUAGE.KOREAN]: '한국어',
-  [BROWSER_LANGUAGE.ENGLISH]: 'English',
+const LANGUAGE_TOGGLE_LABEL = {
+  [BROWSER_LANGUAGE.KOREAN]: 'English',
+  [BROWSER_LANGUAGE.ENGLISH]: '한국어',
 };
