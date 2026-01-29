@@ -27,7 +27,7 @@ const Terminal: React.FC = () => {
   useEffect(() => {
     const pauseOnPKeyDown = (e: globalThis.KeyboardEvent) => {
       const isInputFocused = document.activeElement === inputRef.current;
-      const isPauseKeyDown = e.key.toLowerCase() === TERMINAL_COMMAND_KEY.PAUSE;
+      const isPauseKeyDown = e.key.toLowerCase() === TERMINAL_COMMAND_KEY.PAUSE || e.code === 'KeyP';
 
       if (isPaused || isInputFocused || !isPauseKeyDown) return;
 

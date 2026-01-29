@@ -22,10 +22,10 @@ export default function ResumePage() {
       <main className='max-w-5xl mx-auto px-6 py-12 space-y-12 md:py-16 md:space-y-16'>
         <AboutSection about={about} />
         <ExperienceSection experience={experience} />
+        <ProjectsSection projects={projects} />
         <EducationSection education={education} />
         <CertificatesSection certificates={certificates} />
         <SkillsSection skills={skills} />
-        <ProjectsSection projects={projects} />
         <ContactSection contact={contact} />
       </main>
 

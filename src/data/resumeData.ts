@@ -5,6 +5,9 @@ import epicAiFeeds from '../assets/epic-ai_feeds.webp';
 import epicAiCopilot from '../assets/epic-ai_copilot.webp';
 import epicAiFinancialComparison from '../assets/epic-ai_financial-comparison.webp';
 import epicAiResearchCenter from '../assets/epic-ai_research-center.webp';
+import epicAiNewsArticle1 from '../assets/epic-ai_news-article-1.webp';
+import epicAiNewsArticle2 from '../assets/epic-ai_news-article-2.webp';
+import epicAiNewsArticle3 from '../assets/epic-ai_news-article-3.webp';
 import epicFinanceCreditCard from '../assets/epic-finance_credit-card.webp';
 import epicFinanceDashboard from '../assets/epic-finance_dashboard.webp';
 import epicFinanceExport from '../assets/epic-finance_export.webp';
@@ -81,6 +84,24 @@ const languageAgnosticData = {
         url: epicAiFinancialComparison,
         alt: 'epic AI - Financial Comparison',
       },
+      {
+        type: 'video' as const,
+        url: PROJECT_VIDEO.EPIC_AI_NEWS_ARTICLE_1,
+        thumbnail: epicAiNewsArticle1,
+        alt: 'epic AI - News Article 1',
+      },
+      {
+        type: 'video' as const,
+        url: PROJECT_VIDEO.EPIC_AI_NEWS_ARTICLE_2,
+        thumbnail: epicAiNewsArticle2,
+        alt: 'epic AI - News Article 2',
+      },
+      {
+        type: 'video' as const,
+        url: PROJECT_VIDEO.EPIC_AI_NEWS_ARTICLE_3,
+        thumbnail: epicAiNewsArticle3,
+        alt: 'epic AI - News Article 3',
+      },
     ],
     epicFinance: [
       {
@@ -155,33 +176,6 @@ const resumeKo = {
         '인사 운영 업무 전반을 담당하며, 콘텐츠 제작 환경에 최적화된 인사 시스템을 구축하고 급여 및 채용 프로세스를 전담했습니다.',
     },
   ],
-  education: [
-    {
-      school: '한국방송통신대학교',
-      degree: '컴퓨터과학',
-      period: '2022.03 - 2024.02',
-    },
-    {
-      school: '한양대학교',
-      degree: '경제금융학',
-      period: '2010.03 - 2017.08',
-    },
-  ],
-  certificates: [
-    {
-      name: 'AWS Certified Developer - Associate',
-      date: '2025.01',
-    },
-    {
-      name: 'AWS Certified Solutions Architect - Associate',
-      date: '2024.09',
-    },
-    {
-      name: '정보처리기사',
-      date: '2024.09',
-    },
-  ],
-  skills: languageAgnosticData.skills,
   projects: [
     {
       title: 'epic AI',
@@ -209,6 +203,33 @@ const resumeKo = {
       media: languageAgnosticData.media.epicFinance,
     },
   ],
+  education: [
+    {
+      school: '한국방송통신대학교',
+      degree: '컴퓨터과학',
+      period: '2022.03 - 2024.02',
+    },
+    {
+      school: '한양대학교',
+      degree: '경제금융학',
+      period: '2010.03 - 2017.08',
+    },
+  ],
+  certificates: [
+    {
+      name: 'AWS Certified Developer - Associate',
+      date: '2025.01',
+    },
+    {
+      name: 'AWS Certified Solutions Architect - Associate',
+      date: '2024.09',
+    },
+    {
+      name: '정보처리기사',
+      date: '2024.09',
+    },
+  ],
+  skills: languageAgnosticData.skills,
   contact: {
     email: import.meta.env.VITE_DEV_EMAIL,
     phone: '+82 010-3601-8508',
@@ -250,33 +271,6 @@ const resumeEn = {
         'Managed overall HR operations, established an HR system optimized for content production, and handled payroll and recruitment.',
     },
   ],
-  education: [
-    {
-      school: 'Korea National Open University',
-      degree: 'Computer Science',
-      period: '2022.03 - 2024.02',
-    },
-    {
-      school: 'Hanyang University',
-      degree: 'Economics & Finance',
-      period: '2010.03 - 2017.08',
-    },
-  ],
-  certificates: [
-    {
-      name: 'AWS Certified Developer - Associate',
-      date: '2025.01',
-    },
-    {
-      name: 'AWS Certified Solutions Architect - Associate',
-      date: '2024.09',
-    },
-    {
-      name: 'Engineer Information Processing (정보처리기사)',
-      date: '2024.09',
-    },
-  ],
-  skills: languageAgnosticData.skills,
   projects: [
     {
       title: 'epic AI',
@@ -304,6 +298,33 @@ const resumeEn = {
       media: languageAgnosticData.media.epicFinance,
     },
   ],
+  education: [
+    {
+      school: 'Korea National Open University',
+      degree: 'Computer Science',
+      period: '2022.03 - 2024.02',
+    },
+    {
+      school: 'Hanyang University',
+      degree: 'Economics & Finance',
+      period: '2010.03 - 2017.08',
+    },
+  ],
+  certificates: [
+    {
+      name: 'AWS Certified Developer - Associate',
+      date: '2025.01',
+    },
+    {
+      name: 'AWS Certified Solutions Architect - Associate',
+      date: '2024.09',
+    },
+    {
+      name: 'Engineer Information Processing (정보처리기사)',
+      date: '2024.09',
+    },
+  ],
+  skills: languageAgnosticData.skills,
   contact: {
     email: import.meta.env.VITE_DEV_EMAIL,
     phone: '+82 010-3601-8508',
